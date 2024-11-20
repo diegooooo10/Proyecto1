@@ -1,22 +1,18 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Dark, SearchTabBar, UserTabBar } from "../svg";
 import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
+import { DarkModeContext } from "../context/DarkModeContext";
 
 export const NavBar = () => {
-  const [toggle, setToggle] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
 
   const handleToggle = () => {
-    setToggle(!toggle);
-    if (!toggle) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    setIsDarkMode(!isDarkMode);
   };
 
   return (
-    <nav className="fixed items-center justify-between hidden w-full h-auto p-5 bg-white dark:bg-slate-800 lg:flex text-tertiary">
+    <nav className="fixed z-10 items-center justify-between hidden w-full h-auto p-5 bg-white dark:bg-slate-800 lg:flex text-tertiary">
       <h1 className="text-xl font-bold dark:text-white hover:cursor-pointer">
         <ScrollLink to="search" smooth={true} duration={500}>
           Plazti Travel

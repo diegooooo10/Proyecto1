@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ArrowReturn, Dark } from "../svg";
 import { Link } from "react-router-dom";
+import { DarkModeContext } from "../context/DarkModeContext";
 
 export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
-  const [toggle, setToggle] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,13 +23,9 @@ export const Login = () => {
     setIsLoading(false);
   };
 
+
   const handleToggle = () => {
-    setToggle(!toggle);
-    if (!toggle) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    setIsDarkMode(!isDarkMode);
   };
 
   const handleInputChange = (e) => {
@@ -40,6 +38,7 @@ export const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-white dark:bg-slate-800">
+      
       <Link to="/" className="absolute lg:left-10 left-5 top-5 lg:top-10">
         <ArrowReturn />
       </Link>
@@ -86,7 +85,6 @@ export const Login = () => {
                 type="text"
                 value={formData.name}
                 onChange={handleInputChange}
-                required
                 className="input-common"
                 placeholder="Enter your name"
               />
@@ -101,7 +99,6 @@ export const Login = () => {
               type="email"
               value={formData.email}
               onChange={handleInputChange}
-              required
               className="input-common"
               placeholder="Enter your email"
             />
@@ -116,7 +113,6 @@ export const Login = () => {
                 type="tel"
                 value={formData.phone}
                 onChange={handleInputChange}
-                required
                 className="input-common"
                 placeholder="Enter your phone number"
               />
@@ -131,7 +127,6 @@ export const Login = () => {
               type="password"
               value={formData.password}
               onChange={handleInputChange}
-              required
               className="input-common"
               placeholder="Enter your password"
             />
@@ -147,12 +142,13 @@ export const Login = () => {
 
         {activeTab === "login" && (
           <div className="mt-6 text-center">
-            <a
-              href="#"
+            <Link
+            to='/account'
+
               className="text-sm text-blue-400 transition-colors hover:text-blue-300"
             >
               Forgot my password
-            </a>
+            </Link>
           </div>
         )}
       </div>

@@ -1,16 +1,13 @@
-import { useState } from "react";
+import {useContext } from "react";
 import { Dark } from "../svg";
+import { DarkModeContext } from "../context/DarkModeContext";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
-  const [toggle, setToggle] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
 
   const handleToggle = () => {
-    setToggle(!toggle);
-    if (!toggle) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    setIsDarkMode(!isDarkMode);
   };
   return (
     <header
@@ -35,9 +32,12 @@ export const Header = () => {
         </h2>
       </div>
       <div className="w-full mb-10 lg:mb-7 ">
+        <Link to='/places' >
         <button className="w-48 text-lg font-semibold bg-white rounded-full lg:absolute lg:left-20 lg:w-48 h-14 text-tertiary dark:text-black">
+
           Explore More
         </button>
+        </Link>
       </div>
     </header>
   );

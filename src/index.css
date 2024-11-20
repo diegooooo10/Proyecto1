@@ -5,13 +5,33 @@
 .cardTrending {
   @apply w-full p-8 bg-center bg-cover rounded-lg shadow-md lg:rounded-lg;
 }
-/* styles.css */
+.cardTrending2 {
+  @apply flex items-end w-full h-64 bg-center bg-cover rounded-lg shadow-md;
+}
 
-/* styles.css */
+.cardContentEven {
+  @apply w-40 p-4 text-white rounded-b-lg h-28 bg-primary dark:bg-slate-600;
+}
+
+.cardContentOdd {
+  @apply w-40 p-4 bg-white rounded-b-lg h-28 text-secondary dark:bg-slate-700 dark:text-white;
+}
+
+.profileHeader {
+  @apply flex flex-col items-center w-full p-6 border rounded-md dark:border-slate-700 bg-gray-50 dark:bg-slate-700;
+}
+
+.profileButton {
+  @apply inline-block px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-md cursor-pointer hover:bg-blue-500;
+}
+
+.sectionTitle {
+  @apply mb-5 text-lg font-semibold text-black dark:text-white;
+}
 
 /* Estilos comunes para los inputs */
 .input-common {
-  @apply w-full px-4 py-2 text-white transition-all bg-white border rounded-md dark:bg-slate-900 dark:border-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  @apply w-full px-4 py-2 text-white transition-all bg-white border rounded-md hover:cursor-pointer dark:bg-slate-900 dark:border-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
 }
 
 /* Estilos para los botones de la pestaña (Login/Register) */
@@ -24,7 +44,7 @@
 }
 
 .inactive-tab {
-  @apply dark:text-slate-400 text-black hover:text-slate-400 dark:hover:text-slate-300;
+  @apply text-black dark:text-slate-400 hover:text-slate-400 dark:hover:text-slate-300;
 }
 
 /* Estilos comunes para los labels */
@@ -36,7 +56,6 @@
 .button-common {
   @apply w-full px-4 py-2 font-medium text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed;
 }
-
 
 .custom-scroll::-webkit-scrollbar {
   height: 5px; /* Altura del scrollbar */
@@ -61,7 +80,6 @@
   scrollbar-width: thin; /* Para navegadores que soportan esta propiedad */
   scrollbar-color: rgb(203 213 225) rgb(255 255 255); /* Pulgar y fondo */
 }
-
 
 /* Dark Mode */
 .dark .custom-scroll::-webkit-scrollbar-track {
