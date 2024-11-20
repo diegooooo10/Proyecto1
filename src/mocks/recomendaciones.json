@@ -1,0 +1,102 @@
+[
+  {
+    "place": "Grand Canyon",
+    "description": "Natural wonder",
+    "imageClass": "/grand-canyon.jpg"
+  },
+  {
+    "place": "Eiffel Tower",
+    "description": "Icon of Paris",
+    "imageClass": "/eiffel-tower.jpg"
+  },
+  {
+    "place": "Machu Picchu",
+    "description": "Ancient Incan citadel",
+    "imageClass": "/machu-picchu.jpg"
+  },
+  {
+    "place": "Santorini",
+    "description": "Stunning island",
+    "imageClass": "/santorini.jpg"
+  },
+  {
+    "place": "Great Barrier Reef",
+    "description": "World's largest coral",
+    "imageClass": "/great-barrier-reef.jpg"
+  },
+  {
+    "place": "Mount Fuji",
+    "description": "Snow-capped volcano",
+    "imageClass": "/mount-fuji.jpg"
+  },
+  {
+    "place": "Banff National Park",
+    "description": "Turquoise lakes",
+    "imageClass": "/banff-national-park.jpg"
+  },
+  {
+    "place": "Angkor Wat",
+    "description": "Temple complex",
+    "imageClass": "/angkor-wat.jpg"
+  },
+  {
+    "place": "Serengeti",
+    "description": "Wildlife migration",
+    "imageClass": "/serengeti.jpg"
+  },
+  {
+    "place": "The Colosseum",
+    "description": "Roman amphitheater",
+    "imageClass": "/the-colosseum.jpg"
+  },
+  {
+    "place": "Petra",
+    "description": "Carved city",
+    "imageClass": "/petra.jpg"
+  },
+  {
+    "place": "Niagara Falls",
+    "description": "Powerful waterfalls",
+    "imageClass": "/niagara-falls.jpg"
+  },
+  {
+    "place": "Bora Bora",
+    "description": "Tropical paradise",
+    "imageClass": "/bora-bora.jpg"
+  },
+  {
+    "place": "The Great Wall of China",
+    "description": "Ancient wall",
+    "imageClass": "/great-wall-of-china.jpg"
+  },
+  {
+    "place": "Yellowstone National Park",
+    "description": "Geysers and wildlife",
+    "imageClass": "/yellowstone-national-park.jpg"
+  },
+  {
+    "place": "Pyramids of Giza",
+    "description": "Ancient monuments",
+    "imageClass": "/pyramids-of-giza.jpg"
+  },
+  {
+    "place": "Cinque Terre",
+    "description": "Colorful villages",
+    "imageClass": "/cinque-terre.jpg"
+  },
+  {
+    "place": "Halong Bay",
+    "description": "Emerald waters",
+    "imageClass": "/halong-bay.jpg"
+  },
+  {
+    "place": "Salar de Uyuni",
+    "description": "Salt flat",
+    "imageClass": "/salar-de-uyuni.jpg"
+  },
+  {
+    "place": "Kruger National Park",
+    "description": "Safari destination",
+    "imageClass": "/kruger-national-park.jpg"
+  }
+]

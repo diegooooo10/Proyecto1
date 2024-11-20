@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.cardTrending {
+  @apply w-full p-8 bg-center bg-cover rounded-lg shadow-md lg:rounded-lg;
+}
+/* styles.css */
+
+/* styles.css */
+
+/* Estilos comunes para los inputs */
+.input-common {
+  @apply w-full px-4 py-2 text-white transition-all bg-white border rounded-md dark:bg-slate-900 dark:border-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+/* Estilos para los botones de la pestaña (Login/Register) */
+.tab-button {
+  @apply flex-1 py-3 text-sm font-medium transition-colors;
+}
+
+.active-tab {
+  @apply text-blue-400 border-b-2 border-blue-400;
+}
+
+.inactive-tab {
+  @apply dark:text-slate-400 text-black hover:text-slate-400 dark:hover:text-slate-300;
+}
+
+/* Estilos comunes para los labels */
+.label-common {
+  @apply block mb-2 text-sm font-medium text-black dark:text-white;
+}
+
+/* Estilos comunes para los botones (login, register) */
+.button-common {
+  @apply w-full px-4 py-2 font-medium text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+
+.custom-scroll::-webkit-scrollbar {
+  height: 5px; /* Altura del scrollbar */
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: rgb(255 255 255); /* Fondo del track (blanco) */
+  border-radius: 10px; /* Esquinas redondeadas */
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: rgb(203 213 225); /* Pulgar en azul claro (slate-300) */
+  border-radius: 25px; /* Esquinas redondeadas */
+  border: 1px solid rgb(255 255 255); /* Borde blanco */
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(148 163 184); /* Hover del pulgar (slate-400) */
+}
+
+.custom-scroll {
+  scrollbar-width: thin; /* Para navegadores que soportan esta propiedad */
+  scrollbar-color: rgb(203 213 225) rgb(255 255 255); /* Pulgar y fondo */
+}
+
+
+/* Dark Mode */
+.dark .custom-scroll::-webkit-scrollbar-track {
+  background: rgb(31 41 55); /* Fondo del track (slate-800) */
+}
+
+.dark .custom-scroll::-webkit-scrollbar-thumb {
+  background: rgb(75 85 99); /* Pulgar para modo oscuro (slate-600) */
+  border: 1px solid rgb(31 41 55); /* Borde oscuro */
+}
+
+.dark .custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(55 65 81); /* Hover del pulgar (slate-700) */
+}
+
+.dark .custom-scroll {
+  scrollbar-color: rgb(75 85 99) rgb(31 41 55); /* Pulgar y fondo */
+}
