@@ -1,4 +1,3 @@
-// DarkModeContext.js
 import {  useState, useEffect } from "react";
 import { DarkModeContext } from "./DarkModeContext";
 

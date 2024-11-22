@@ -17,13 +17,13 @@ export const Acount = () => {
   }, []);
 
   return (
-    <div className="min-h-screen p-6 space-y-6 bg-white dark:bg-slate-800">
-      <Link to="/" className="absolute left-5 top-5 lg:left-10">
+    <div className="min-h-screen p-4 space-y-6 bg-white dark:bg-slate-800">
+      <Link to="/" className="absolute left-5 lg:top-10 top-5 lg:left-10">
         <ArrowReturn />
       </Link>
       <button
         onClick={handleToggle}
-        className="absolute top-0 right-5 lg:right-10"
+        className="absolute -top-1 lg:top-4 right-5 lg:right-10"
       >
         <Dark />
       </button>

@@ -65,9 +65,9 @@ export const NavBar = () => {
         </li>
       </ul>
       <ul className="flex items-center space-x-6">
-        <button>
+        <Link  to='/places'>
           <SearchTabBar />
-        </button>
+        </Link>
         <button onClick={handleToggle}>
           <Dark />
         </button>

@@ -8,37 +8,19 @@ export const Login = () => {
   const [activeTab, setActiveTab] = useState("login");
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Aquí iría la lógica para manejar el envío del formulario, ya sea para login o registro
     setIsLoading(false);
   };
-
 
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
-    });
-  };
-
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-white dark:bg-slate-800">
-      
       <Link to="/" className="absolute lg:left-10 left-5 top-5 lg:top-10">
         <ArrowReturn />
       </Link>
@@ -83,8 +65,6 @@ export const Login = () => {
               <input
                 id="name"
                 type="text"
-                value={formData.name}
-                onChange={handleInputChange}
                 className="input-common"
                 placeholder="Enter your name"
               />
@@ -97,8 +77,6 @@ export const Login = () => {
             <input
               id="email"
               type="email"
-              value={formData.email}
-              onChange={handleInputChange}
               className="input-common"
               placeholder="Enter your email"
             />
@@ -111,8 +89,6 @@ export const Login = () => {
               <input
                 id="phone"
                 type="tel"
-                value={formData.phone}
-                onChange={handleInputChange}
                 className="input-common"
                 placeholder="Enter your phone number"
               />
@@ -125,8 +101,6 @@ export const Login = () => {
             <input
               id="password"
               type="password"
-              value={formData.password}
-              onChange={handleInputChange}
               className="input-common"
               placeholder="Enter your password"
             />
@@ -143,8 +117,7 @@ export const Login = () => {
         {activeTab === "login" && (
           <div className="mt-6 text-center">
             <Link
-            to='/account'
-
+              to="/account"
               className="text-sm text-blue-400 transition-colors hover:text-blue-300"
             >
               Forgot my password
