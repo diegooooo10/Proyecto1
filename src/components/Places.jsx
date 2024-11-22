@@ -1,13 +1,26 @@
-import { useState, useContext, useMemo } from "react";
+import { useState, useContext, useMemo, useEffect } from "react";
 import allPlaces from "../mocks/all-places.json";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { ArrowReturn, Dark } from "../svg";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { Element, scroller } from "react-scroll";
 
 export const Places = () => {
   const [search, setSearch] = useState("");
-
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
+
+  const [searchParams] = useSearchParams();
+  const targetId = searchParams.get("id"); 
+
+  useEffect(() => {
+    if (targetId) {
+      scroller.scrollTo(targetId, {
+        smooth: true,
+        offset: -10, 
+        duration: 500,
+      });
+    }
+  }, [targetId]); 
 
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
@@ -52,27 +65,25 @@ export const Places = () => {
         Explore Our Destinations
       </h2>
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-
-      {filteredRecomendaciones.length > 0 ? (
+        {filteredRecomendaciones.length > 0 ? (
           filteredRecomendaciones.map((place) => (
-            <div
-              key={place.id}
-              className="overflow-hidden bg-white rounded-lg shadow-md dark:bg-slate-700"
-            >
-              <img
-                src={place.img}
-                alt={place.title}
-                className="object-cover w-full h-40"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  {place.title}
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  {place.description}
-                </p>
+            <Element key={place.id} name={place.id}>
+              <div className="overflow-hidden bg-white rounded-lg shadow-md dark:bg-slate-700">
+                <img
+                  src={place.img}
+                  alt={place.title}
+                  className="object-cover w-full h-40"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {place.title}
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    {place.description}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Element>
           ))
         ) : (
           <p className="col-span-6 text-lg text-center text-black dark:text-white">
