@@ -1,18 +1,18 @@
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { Recomenadaciones } from "../components/Recomenadaciones";
+import { Recommendations } from "../components/Recommendations";
 import { TabBar } from "../components/TabBar";
-import { Tendencias } from "../components/Tendencias";
 import { Faqs } from "../components/Faqs";
+import { Trending } from "../components/Trending";
 
 export const Home = () => {
   return (
     <>
       <NavBar />
       <Header />
-      <Recomenadaciones />
-      <Tendencias />
+      <Recommendations />
+      <Trending />
       <Faqs />
       <Footer />
       <TabBar />

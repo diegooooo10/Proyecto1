@@ -1,4 +1,4 @@
-export const Tendencias = () => {
+export const Trending = () => {
   return (
     <section id="trending" className="flex flex-col justify-center p-5 dark:bg-slate-800">
       <h2 className="mb-4 text-2xl font-bold text-start text-tertiary dark:text-white">

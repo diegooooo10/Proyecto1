@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import recomendacionesData from "../mocks/recomendaciones.json";
 
-export const Recomenadaciones = () => {
+export const Recommendations = () => {
   const [recomendaciones, setRecomendaciones] = useState([]);
 
   useEffect(() => {
