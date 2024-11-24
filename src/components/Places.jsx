@@ -114,8 +114,6 @@ export const Places = () => {
           </p>
         )}
       </div>
-
-      {/* Modal fuera del mapa */}
       {modal && selectedPlace && (
         <ModalPlaces place={selectedPlace} onClose={closeModal} />
       )}
