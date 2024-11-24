@@ -11,7 +11,6 @@ export const Places = () => {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
   const [modal, setModal] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
-  
 
   const [searchParams] = useSearchParams();
   const targetId = searchParams.get("id");
@@ -53,7 +52,6 @@ export const Places = () => {
     setSelectedPlace(null); // Limpia el lugar seleccionado
   };
 
-
   return (
     <div className="min-h-screen p-5 bg-white md:p-8 dark:bg-slate-800">
       <div className="flex items-center justify-between lg:p-1 lg:px-2 lg:pb-0.5">
@@ -68,7 +66,7 @@ export const Places = () => {
           name="search"
           id="search"
           placeholder="Search..."
-          className="hidden p-2 focus:w-96 transition-al duration-300  focus:duration-300 text-lg text-black bg-gray-100 border rounded-full shadow-xl outline-none lg:flex dark:border-slate-700 dark:bg-white w-60 focus:ring-0"
+          className="hidden p-2 text-lg text-black duration-300 bg-gray-100 border rounded-full shadow-xl outline-none focus:w-96 transition-al focus:duration-300 lg:flex dark:border-slate-700 dark:bg-white w-60 focus:ring-0"
         />
 
         <button onClick={handleToggle} className="">
@@ -82,7 +80,7 @@ export const Places = () => {
         {filteredRecomendaciones.length > 0 ? (
           filteredRecomendaciones.map((place) => (
             <Element key={place.id} name={place.id.toString()}>
-              <div className="overflow-hidden  bg-white rounded-lg shadow-md dark:bg-slate-700">
+              <div className="overflow-hidden bg-white rounded-lg shadow-md dark:bg-slate-700">
                 <img
                   src={place.img}
                   alt={place.title}
@@ -93,7 +91,7 @@ export const Places = () => {
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       {place.title}
                     </h3>
-                    <p className="text-gray-700 text-right dark:text-gray-300">
+                    <p className="text-right text-gray-700 dark:text-gray-300">
                       {place.price}
                     </p>
                   </div>
@@ -102,15 +100,12 @@ export const Places = () => {
                   </p>
                   <button
                     onClick={() => openModal(place)}
-                    className=" text-white hover:opacity-80 flex mx-auto bg-blue-700 rounded-md p-3 "
+                    className="flex p-3 mx-auto text-white bg-blue-700 rounded-md hover:opacity-80"
                   >
                     Reserve
                   </button>
                 </div>
               </div>
-              {modal && selectedPlace && (
-        <ModalPlaces place={selectedPlace} onClose={closeModal} />
-      )}
             </Element>
           ))
         ) : (
@@ -119,6 +114,11 @@ export const Places = () => {
           </p>
         )}
       </div>
+
+      {/* Modal fuera del mapa */}
+      {modal && selectedPlace && (
+        <ModalPlaces place={selectedPlace} onClose={closeModal} />
+      )}
     </div>
   );
 };
