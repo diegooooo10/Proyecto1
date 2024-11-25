@@ -1,20 +1,16 @@
 import { ArrowReturn, Dark, User } from "../svg";
-import recomendacionesData from "../mocks/recomendaciones.json";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { Link } from "react-router-dom";
+import { ReservePlacesContext } from "../context/ReservePlacesContext";
 
 export const Acount = () => {
-  const [recomendaciones, setRecomendaciones] = useState([]);
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
+  const { upcomingTrips, tripsMade } = useContext(ReservePlacesContext);
 
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
-
-  useEffect(() => {
-    setRecomendaciones(recomendacionesData);
-  }, []);
 
   return (
     <div className="min-h-screen p-4 space-y-6 bg-white dark:bg-slate-800">
@@ -48,18 +44,19 @@ export const Acount = () => {
 
       <article>
         <h2 className="sectionTitle">Trips made</h2>
-        <div className="flex flex-row w-auto h-64 gap-4 overflow-x-scroll custom-scroll">
-          {recomendaciones.map((lugar, index) => {
+        <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
+          {tripsMade.map((lugar, index) => {
+            // Cambiado a tripsMade
             const isEven = index % 2 === 0;
 
             return (
               <div
                 key={index}
                 className="cardTrending2"
-                style={{ backgroundImage: `url(${lugar.imageClass})` }}
+                style={{ backgroundImage: `url(${lugar.img})` }}
               >
                 <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
-                  <p className="text-lg font-semibold">{lugar.place}</p>
+                  <p className="text-lg font-semibold">{lugar.title}</p>
                   <p className="text-sm">{lugar.description}</p>
                 </div>
               </div>
@@ -70,18 +67,19 @@ export const Acount = () => {
 
       <article>
         <h2 className="sectionTitle">Upcoming trips</h2>
-        <div className="flex flex-row w-auto h-64 gap-4 overflow-x-scroll custom-scroll">
-          {recomendaciones.map((lugar, index) => {
+        <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
+          {upcomingTrips.map((lugar, index) => {
+            // Cambiado a upcomingTrips
             const isEven = index % 2 === 0;
 
             return (
               <div
                 key={index}
                 className="cardTrending2"
-                style={{ backgroundImage: `url(${lugar.imageClass})` }}
+                style={{ backgroundImage: `url(${lugar.img})` }}
               >
                 <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
-                  <p className="text-lg font-semibold">{lugar.place}</p>
+                  <p className="text-lg font-semibold">{lugar.title}</p>
                   <p className="text-sm">{lugar.description}</p>
                 </div>
               </div>
