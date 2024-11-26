@@ -3,8 +3,6 @@ import { ReservePlacesContext } from "./ReservePlacesContext";
 
 const STORAGE_KEY = "places";
 
-
-
 export const ReservePlacesProvider = ({ children }) => {
   // Inicializa los datos desde localStorage o usa los datos iniciales
   const [places, setPlaces] = useState(() => {
@@ -35,10 +33,7 @@ export const ReservePlacesProvider = ({ children }) => {
   }, [places]);
 
   const addPlace = (newPlace) => {
-    console.log("Nuevo lugar recibido:", newPlace); // Verifica el contenido del lugar
-
     const updatedPlaces = [...places, newPlace];
-    console.log("Lista actualizada de lugares:", updatedPlaces); // Verifica la lista actualizada
 
     setPlaces(updatedPlaces);
   };

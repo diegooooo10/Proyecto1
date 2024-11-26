@@ -1,6 +1,6 @@
 import { Close, CreditCard, PadLock, Plane } from "../svg";
 import { useEffect, useState, useContext } from "react";
-import { ReservePlacesContext } from "../context/ReservePlacesContext"; // Ajusta la ruta según tu proyecto
+import { ReservePlacesContext } from "../context/ReservePlacesContext";
 
 export const ModalPlaces = ({ place, onClose }) => {
   const { addPlace } = useContext(ReservePlacesContext);
@@ -12,13 +12,24 @@ export const ModalPlaces = ({ place, onClose }) => {
   const [cvc, setCvc] = useState("");
   const [cardholderName, setCardholderName] = useState("");
   const [error, setError] = useState("");
+  const [isOpen, setIsOpen] = useState(false); // Estado para controlar la animación
+  const [isClosing, setIsClosing] = useState(false); // Estado para controlar el cierre animado
 
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
+    setIsOpen(true); // Modal abierto al montar el componente
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
   }, []);
+
+  const closeModal = () => {
+    setIsClosing(true); // Iniciar animación de cierre
+    setTimeout(() => {
+      setIsOpen(false); // Después de la animación, cerrar el modal
+      onClose(); // Llamar a la función `onClose` para manejar el desmontaje externo
+    }, 500); // 500ms para que coincida con la duración de la animación
+  };
 
   const formatCardNumber = (value) => {
     return value
@@ -64,8 +75,6 @@ export const ModalPlaces = ({ place, onClose }) => {
       setError("Cardholder name is required.");
       return;
     }
-    console.log(addPlace); // Antes de llamar a addPlace
-
 
     const newPlace = {
       id: Date.now(), // Genera un ID único
@@ -74,14 +83,13 @@ export const ModalPlaces = ({ place, onClose }) => {
       img: place.img,
       price: place.price, // Precio ejemplo
       description: place.description
-      
-    }
+    };
+
     // Agregar el lugar
     addPlace(newPlace);
-
     
     setError(""); // Limpiar errores si todo es válido
-    onClose(); // Cerrar modal
+    closeModal(); // Cerrar modal con animación
   };
 
   return (
@@ -89,20 +97,21 @@ export const ModalPlaces = ({ place, onClose }) => {
       role="dialog"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 select-none"
+      className={`fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 select-none transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0'} ${isOpen || isClosing ? 'pointer-events-auto' : 'pointer-events-none'}`}
     >
-      <div className="relative flex-col w-11/12 h-auto transform bg-white rounded-lg shadow-lg md:w-1/2 lg:w-1/3">
+      <div
+        className={`relative flex-col w-11/12 h-auto transform bg-white rounded-lg shadow-lg md:w-1/2 lg:w-1/3 transition-all duration-500 ${isOpen ? 'translate-y-0' : 'translate-y-5'} ${isClosing ? 'translate-y-5 opacity-0' : ''}`}
+      >
         <div className="flex items-center w-full p-4 space-x-4 rounded-t-lg bg-gradient-to-r from-blue-600 to-blue-700 h-1/6">
           <Plane />
           <div className="flex flex-col">
             <h2 className="font-semibold text-white">Complete Your Booking</h2>
             <p className="text-sm text-blue-100 font-extralight">{place.title}</p>
           </div>
-          <button onClick={onClose} className="absolute p-2 text-white top-3 right-2">
+          <button onClick={closeModal} className="absolute p-2 text-white top-3 right-2">
             <Close />
           </button>
         </div>
-
         <form
           autoComplete="none"
           onSubmit={handleSubmit}
