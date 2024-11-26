@@ -1,11 +1,12 @@
 import { useState, useContext, useEffect } from "react";
-import { ArrowReturn, Dark } from "../svg";
+import { ArrowReturn, Dark, Eye, EyeOff } from "../svg";
 import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { UserLoginContext } from "../context/UserLoginContext";
 import { PasswordResetModal } from "./ModalForgotPassword"; // Asegúrate de importar el modal
 
 export const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const [error, setError] = useState("");
@@ -106,6 +107,7 @@ export const Login = () => {
       phone: "",
       password: "",
     });
+    setShowPassword(false)
     setError("");
   }, [activeTab]);
 
@@ -200,15 +202,25 @@ export const Login = () => {
             <label htmlFor="password" className="label-common">
               Password
             </label>
+            <div className="relative">
+
             <input
               id="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               maxLength={20}
               className="input-common"
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-[8px] text-gray-400 hover:text-gray-600"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+            </div>
           </div>
           <button type="submit" disabled={isLoading} className="button-common">
             {isLoading

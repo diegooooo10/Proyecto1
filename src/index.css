@@ -18,7 +18,7 @@
 }
 
 .profileHeader {
-  @apply flex relative flex-col items-center w-full p-6 border rounded-md lg:w-2/5 lg:mx-auto dark:border-slate-700 bg-gray-50 dark:bg-slate-700;
+  @apply relative flex flex-col items-center w-full p-6 border rounded-md lg:w-2/5 lg:mx-auto dark:border-slate-700 bg-gray-50 dark:bg-slate-700;
 }
 
 .profileButton {
@@ -31,7 +31,7 @@
 
 /* Estilos comunes para los inputs */
 .input-common {
-  @apply w-full px-4 py-2 text-white transition-all bg-white border rounded-md hover:cursor-text dark:bg-slate-900 dark:border-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  @apply w-full px-4 py-2 text-black transition-all bg-white border rounded-md dark:text-white hover:cursor-text dark:bg-slate-900 dark:border-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
 }
 
 /* Estilos para los botones de la pestaña (Login/Register) */
@@ -75,6 +75,7 @@
 .custom-scroll::-webkit-scrollbar {
   height: 5px; /* Altura del scrollbar */
 }
+
 
 .custom-scroll::-webkit-scrollbar-track {
   background: rgb(255 255 255); /* Fondo del track (blanco) */
