@@ -12,7 +12,10 @@ export function PasswordResetModal({ isOpen, onClose }) {
 
   const handleEmailSubmit = (e) => {
     e.preventDefault();
-    // Typically, you'd verify that the email exists here
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      return setError("The email is not valid.");
+    }
     setStep("password");
     setError("");
   };
@@ -63,6 +66,7 @@ export function PasswordResetModal({ isOpen, onClose }) {
           >
             Email Address
           </label>
+          {error && <p className="mb-2 text-sm text-red-600">{error}</p>}
           <input
             type="text"
             id="email"
