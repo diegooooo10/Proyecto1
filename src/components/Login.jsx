@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ArrowReturn, Dark } from "../svg";
 import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { UserLoginContext } from "../context/UserLoginContext";
+import { PasswordResetModal } from "./ModalForgotPassword"; // Asegúrate de importar el modal
 
 export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,13 +16,15 @@ export const Login = () => {
     password: "",
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
   const { login, register } = useContext(UserLoginContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    setError(""); 
+    setError("");
   };
 
   const validateInputs = () => {
@@ -29,7 +32,10 @@ export const Login = () => {
       if (!formData.name.trim() || formData.name.length < 3) {
         return "The name must be at least 3 characters.";
       }
-      if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      if (
+        !formData.email.trim() ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+      ) {
         return "The email is not valid.";
       }
       if (!formData.phone.trim() || !/^\d{10}$/.test(formData.phone)) {
@@ -37,7 +43,12 @@ export const Login = () => {
       }
     }
 
-
+    if (
+      !formData.email.trim() ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+    ) {
+      return "The email is not valid.";
+    }
     if (!formData.password || formData.password.length < 6) {
       return "The password must be at least 6 characters.";
     }
@@ -48,7 +59,6 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
 
     const validationError = validateInputs();
     if (validationError) {
@@ -80,16 +90,23 @@ export const Login = () => {
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true); // Abrir modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Cerrar modal
+  };
+
   useEffect(() => {
     setFormData({
       name: "",
       email: "",
       phone: "",
       password: "",
-      
     });
     setError("");
-
   }, [activeTab]);
 
   return (
@@ -155,7 +172,7 @@ export const Login = () => {
             </label>
             <input
               id="email"
-              type="email"
+              type="text"
               maxLength={50}
               className="input-common"
               placeholder="Enter your email"
@@ -204,15 +221,18 @@ export const Login = () => {
 
         {activeTab === "login" && (
           <div className="mt-6 text-center">
-            <Link
-              to="/"
+            <button
+              onClick={handleOpenModal}
               className="text-sm text-blue-400 transition-colors hover:text-blue-300"
             >
               Forgot my password
-            </Link>
+            </button>
           </div>
         )}
       </div>
+
+      {/* Modal for resetting password */}
+      <PasswordResetModal isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 };
