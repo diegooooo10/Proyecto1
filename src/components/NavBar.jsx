@@ -71,7 +71,7 @@ export const NavBar = () => {
         <button onClick={handleToggle}>
           <Dark />
         </button>
-        <Link to="/login">
+        <Link to="/account">
           <UserTabBar />
         </Link>
       </ul>

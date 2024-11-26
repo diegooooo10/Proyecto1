@@ -39,7 +39,7 @@ export const TabBar = () => {
         </button>
       </ScrollLink>
 
-      <Link to="/login">
+      <Link to="/account">
         <UserTabBar />
       </Link>
     </nav>

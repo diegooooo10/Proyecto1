@@ -1,8 +1,10 @@
 import { Login } from "../components/Login";
-
+import { UserLoged } from "./ProtectedRoute";
 
 export const LoginRoute = () => {
   return (
-    <Login/>
+    <UserLoged>
+      <Login />
+    </UserLoged>
   );
 };

@@ -3,10 +3,13 @@ import { ArrowReturn, Dark, User } from "../svg";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { Link } from "react-router-dom";
 import { ReservePlacesContext } from "../context/ReservePlacesContext";
+import { UserLoginContext } from "../context/UserLoginContext";
 
 export const Acount = () => {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
   const { upcomingTrips, tripsMade } = useContext(ReservePlacesContext);
+  const { clearTrips } = useContext(ReservePlacesContext);
+  const {logout} = useContext(UserLoginContext)
 
   const [profileImage, setProfileImage] = useState(null); // Estado para la imagen de perfil
 
@@ -20,6 +23,11 @@ export const Acount = () => {
 
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("profileImage");
+    logout();
+    clearTrips();
   };
 
   const imageProfileChange = (e) => {
@@ -35,6 +43,7 @@ export const Acount = () => {
       console.log("No image selected");
     }
   };
+  
 
   return (
     <div className="min-h-screen p-4 space-y-6 bg-white dark:bg-slate-800">
@@ -75,6 +84,11 @@ export const Acount = () => {
         <p className="mt-4 text-lg font-medium text-black dark:text-white">
           User name
         </p>
+          <button 
+          onClick={handleLogout}
+          className="inline-block px-4 py-2 mt-8 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500">
+            Logout
+          </button>
       </header>
 
       <article>
@@ -94,7 +108,9 @@ export const Acount = () => {
                   className="cardTrending2"
                   style={{ backgroundImage: `url(${lugar.img})` }}
                 >
-                  <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
+                  <div
+                    className={isEven ? "cardContentEven" : "cardContentOdd"}
+                  >
                     <p className="text-lg font-semibold">{lugar.title}</p>
                     <p className="text-sm">{lugar.description}</p>
                   </div>
@@ -108,7 +124,7 @@ export const Acount = () => {
       <article>
         <h2 className="sectionTitle">Upcoming trips</h2>
         {upcomingTrips.length === 0 ? (
-          <p className="absolute w-full text-xl text-center text-black dark:text-white">
+          <p className="w-full text-xl text-center text-black  dark:text-white">
             {`You don't have any upcoming trips`}
           </p>
         ) : (
@@ -122,7 +138,9 @@ export const Acount = () => {
                   className="cardTrending2"
                   style={{ backgroundImage: `url(${lugar.img})` }}
                 >
-                  <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
+                  <div
+                    className={isEven ? "cardContentEven" : "cardContentOdd"}
+                  >
                     <p className="text-lg font-semibold">{lugar.title}</p>
                     <p className="text-sm">{lugar.description}</p>
                   </div>

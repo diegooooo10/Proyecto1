@@ -1,16 +1,78 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ArrowReturn, Dark } from "../svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../context/DarkModeContext";
+import { UserLoginContext } from "../context/UserLoginContext";
 
 export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
+  const { login, register } = useContext(UserLoginContext);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setError(""); 
+  };
+
+  const validateInputs = () => {
+    if (activeTab === "register") {
+      if (!formData.name.trim() || formData.name.length < 3) {
+        return "The name must be at least 3 characters.";
+      }
+      if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        return "The email is not valid.";
+      }
+      if (!formData.phone.trim() || !/^\d{10}$/.test(formData.phone)) {
+        return "The phone number must be valid (10 digits).";
+      }
+    }
+
+
+    if (!formData.password || formData.password.length < 6) {
+      return "The password must be at least 6 characters.";
+    }
+
+    return ""; // Sin errores
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+
+    const validationError = validateInputs();
+    if (validationError) {
+      setError(validationError);
+      setIsLoading(false);
+      return;
+    }
+
+    if (activeTab === "login") {
+      const success = login(formData.email, formData.password);
+      if (success) {
+        navigate("/account");
+      } else {
+        setError("Credenciales incorrectas.");
+      }
+    } else if (activeTab === "register") {
+      register({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      });
+      setActiveTab("login");
+    }
 
     setIsLoading(false);
   };
@@ -18,6 +80,17 @@ export const Login = () => {
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
+  useEffect(() => {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      
+    });
+    setError("");
+
+  }, [activeTab]);
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-white dark:bg-slate-800">
@@ -57,6 +130,9 @@ export const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="text-sm text-center text-red-500">{error}</div>
+          )}
           {activeTab === "register" && (
             <div>
               <label htmlFor="name" className="label-common">
@@ -67,6 +143,9 @@ export const Login = () => {
                 type="text"
                 className="input-common"
                 placeholder="Enter your name"
+                value={formData.name}
+                maxLength={20}
+                onChange={handleChange}
               />
             </div>
           )}
@@ -77,8 +156,11 @@ export const Login = () => {
             <input
               id="email"
               type="email"
+              maxLength={50}
               className="input-common"
               placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
             />
           </div>
           {activeTab === "register" && (
@@ -89,8 +171,11 @@ export const Login = () => {
               <input
                 id="phone"
                 type="tel"
+                maxLength={10}
                 className="input-common"
                 placeholder="Enter your phone number"
+                value={formData.phone}
+                onChange={handleChange}
               />
             </div>
           )}
@@ -101,8 +186,11 @@ export const Login = () => {
             <input
               id="password"
               type="password"
+              maxLength={20}
               className="input-common"
               placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
             />
           </div>
           <button type="submit" disabled={isLoading} className="button-common">
@@ -117,7 +205,7 @@ export const Login = () => {
         {activeTab === "login" && (
           <div className="mt-6 text-center">
             <Link
-              to="/account"
+              to="/"
               className="text-sm text-blue-400 transition-colors hover:text-blue-300"
             >
               Forgot my password

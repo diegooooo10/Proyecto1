@@ -1,7 +1,9 @@
 import { Places } from "../components/Places";
-
+import {ProtectedRoute} from '../Routes/ProtectedRoute'
 export const Place = () => {
   return (
-    <Places/>
+    <ProtectedRoute>
+      <Places/>
+    </ProtectedRoute>
   );
 };

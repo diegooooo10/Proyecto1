@@ -13,6 +13,7 @@ export const ReservePlacesProvider = ({ children }) => {
   const [upcomingTrips, setUpcomingTrips] = useState([]);
   const [tripsMade, setTripsMade] = useState([]);
 
+  // Categoriza los viajes como futuros o pasados
   const categorizeTrips = (places) => {
     const now = new Date();
     return {
@@ -21,6 +22,7 @@ export const ReservePlacesProvider = ({ children }) => {
     };
   };
 
+  // Actualiza los estados de los viajes cuando cambian los lugares
   useEffect(() => {
     const { futureTrips, pastTrips } = categorizeTrips(places);
     setUpcomingTrips(futureTrips);
@@ -34,13 +36,24 @@ export const ReservePlacesProvider = ({ children }) => {
 
   const addPlace = (newPlace) => {
     const updatedPlaces = [...places, newPlace];
-
     setPlaces(updatedPlaces);
+  };
+
+  // Limpia los estados (usado para logout)
+  const clearTrips = () => {
+    setPlaces([]);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
     <ReservePlacesContext.Provider
-      value={{ places, upcomingTrips, tripsMade, addPlace }}
+      value={{
+        places,
+        upcomingTrips,
+        tripsMade,
+        addPlace,
+        clearTrips, // Exportar la función para usar en el logout
+      }}
     >
       {children}
     </ReservePlacesContext.Provider>

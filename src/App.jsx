@@ -6,7 +6,9 @@ import { Place } from "./Routes/Place";
 import { Error404 } from "./components/Error404";
 
 
+
 export const App = () => {
+  
   return (
     <Router>
       <Routes>

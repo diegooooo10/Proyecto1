@@ -18,7 +18,7 @@
 }
 
 .profileHeader {
-  @apply flex flex-col items-center w-full p-6 border rounded-md lg:w-2/5 lg:mx-auto dark:border-slate-700 bg-gray-50 dark:bg-slate-700;
+  @apply flex relative flex-col items-center w-full p-6 border rounded-md lg:w-2/5 lg:mx-auto dark:border-slate-700 bg-gray-50 dark:bg-slate-700;
 }
 
 .profileButton {
