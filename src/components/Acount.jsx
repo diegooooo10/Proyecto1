@@ -1,5 +1,5 @@
+import { useState, useContext, useEffect } from "react";
 import { ArrowReturn, Dark, User } from "../svg";
-import { useContext } from "react";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { Link } from "react-router-dom";
 import { ReservePlacesContext } from "../context/ReservePlacesContext";
@@ -8,8 +8,32 @@ export const Acount = () => {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
   const { upcomingTrips, tripsMade } = useContext(ReservePlacesContext);
 
+  const [profileImage, setProfileImage] = useState(null); // Estado para la imagen de perfil
+
+  // Recuperar la imagen desde localStorage cuando el componente se monta
+  useEffect(() => {
+    const savedProfileImage = localStorage.getItem("profileImage");
+    if (savedProfileImage) {
+      setProfileImage(savedProfileImage); // Establecer la imagen guardada
+    }
+  }, []);
+
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
+  };
+
+  const imageProfileChange = (e) => {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageUrl = e.target.result;
+        setProfileImage(imageUrl); // Establecer la imagen seleccionada
+        localStorage.setItem("profileImage", imageUrl); // Guardar la imagen en localStorage
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      console.log("No image selected");
+    }
   };
 
   return (
@@ -26,15 +50,26 @@ export const Acount = () => {
       <h2 className="mb-5 text-center text-black dark:text-white">Account</h2>
 
       <header className="profileHeader">
-        <User className="mb-4 text-5xl text-gray-500 dark:text-gray-300" />
-        <label htmlFor="porfile" className="profileButton">
+        <div className="mb-4">
+          {profileImage ? (
+            <img
+              src={profileImage} // Mostrar la imagen seleccionada
+              alt="Profile"
+              className="object-cover w-32 h-32 mb-4 rounded-full"
+            />
+          ) : (
+            <User className="w-32 h-32 mb-4 text-gray-500 dark:text-gray-300" /> // Mostrar el componente SVG por defecto
+          )}
+        </div>
+        <label htmlFor="profile" className="profileButton">
           Select an image
         </label>
         <input
           type="file"
           accept="image/png,image/jpeg"
-          name="porfile"
-          id="porfile"
+          name="profile"
+          id="profile"
+          onChange={imageProfileChange}
           className="hidden"
         />
         <p className="mt-4 text-lg font-medium text-black dark:text-white">
@@ -44,48 +79,58 @@ export const Acount = () => {
 
       <article>
         <h2 className="sectionTitle">Trips made</h2>
-        <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
-          {tripsMade.map((lugar, index) => {
-            // Cambiado a tripsMade
-            const isEven = index % 2 === 0;
+        {tripsMade.length === 0 ? (
+          <p className="w-full text-xl text-center text-black dark:text-white">
+            {`You haven't booked any trips yet`}
+          </p>
+        ) : (
+          <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
+            {tripsMade.map((lugar, index) => {
+              const isEven = index % 2 === 0;
 
-            return (
-              <div
-                key={index}
-                className="cardTrending2"
-                style={{ backgroundImage: `url(${lugar.img})` }}
-              >
-                <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
-                  <p className="text-lg font-semibold">{lugar.title}</p>
-                  <p className="text-sm">{lugar.description}</p>
+              return (
+                <div
+                  key={index}
+                  className="cardTrending2"
+                  style={{ backgroundImage: `url(${lugar.img})` }}
+                >
+                  <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
+                    <p className="text-lg font-semibold">{lugar.title}</p>
+                    <p className="text-sm">{lugar.description}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </article>
 
       <article>
         <h2 className="sectionTitle">Upcoming trips</h2>
-        <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
-          {upcomingTrips.map((lugar, index) => {
-            // Cambiado a upcomingTrips
-            const isEven = index % 2 === 0;
+        {upcomingTrips.length === 0 ? (
+          <p className="absolute w-full text-xl text-center text-black dark:text-white">
+            {`You don't have any upcoming trips`}
+          </p>
+        ) : (
+          <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
+            {upcomingTrips.map((lugar, index) => {
+              const isEven = index % 2 === 0;
 
-            return (
-              <div
-                key={index}
-                className="cardTrending2"
-                style={{ backgroundImage: `url(${lugar.img})` }}
-              >
-                <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
-                  <p className="text-lg font-semibold">{lugar.title}</p>
-                  <p className="text-sm">{lugar.description}</p>
+              return (
+                <div
+                  key={index}
+                  className="cardTrending2"
+                  style={{ backgroundImage: `url(${lugar.img})` }}
+                >
+                  <div className={isEven ? "cardContentEven" : "cardContentOdd"}>
+                    <p className="text-lg font-semibold">{lugar.title}</p>
+                    <p className="text-sm">{lugar.description}</p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </article>
     </div>
   );
