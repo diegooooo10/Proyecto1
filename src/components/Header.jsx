@@ -22,6 +22,7 @@ export const Header = () => {
     );
   }, [search]);
 
+  
   const searcher = (e) => {
     setSearch(e.target.value);
   };
@@ -35,7 +36,7 @@ export const Header = () => {
         <button onClick={handleToggle} className="fixed z-20 mb-5 lg:hidden ">
           <Dark />
         </button>
-        <div className="w-11/12 absolute left-4">
+        <div className="absolute w-11/12 left-4">
           <input
             value={search}
             onChange={searcher}
@@ -43,14 +44,14 @@ export const Header = () => {
             name="search"
             id="search"
             placeholder="San Francisco"
-            className="w-full h-auto p-3 mx-auto mt-16 dark:bg-slate-800 dark:text-white bg-white rounded-2xl shadow outline-none lg:hidden focus:ring-0"
+            className="w-full h-auto p-3 mx-auto mt-16 bg-white shadow outline-none dark:bg-slate-800 dark:text-white rounded-2xl lg:hidden focus:ring-0"
           />
           {filteredRecomendaciones.length > 0 && (
-            <div className="top-40 md:max-h-52 z-10 w-full lg:hidden overflow-y-auto rounded-md shadow-lg max-h-44">
+            <div className="z-10 w-full overflow-y-auto rounded-md shadow-lg top-40 md:max-h-52 lg:hidden max-h-44">
               {filteredRecomendaciones.map((place) => (
                 <div
                   key={place.id}
-                  className="p-3 border bg-white text-black dark:text-white dark:border-slate-700 cursor-pointer dark:bg-slate-800"
+                  className="p-3 text-black bg-white border cursor-pointer dark:text-white dark:border-slate-700 dark:bg-slate-800"
                 >
                   <Link
                     to={`/places?id=${place.id}`} // Redirige con el ID como query parameter
@@ -64,7 +65,7 @@ export const Header = () => {
           )}
 
           {filteredRecomendaciones.length === 0 && search && (
-            <div className="p-3 w-full lg:hidden overflow-y-auto rounded-md shadow-lg max-h-44 border bg-white text-black dark:text-white dark:border-slate-700 cursor-pointer dark:bg-slate-800">
+            <div className="w-full p-3 overflow-y-auto text-black bg-white border rounded-md shadow-lg cursor-pointer lg:hidden max-h-44 dark:text-white dark:border-slate-700 dark:bg-slate-800">
               <p className="text-center text-black dark:text-white">
                 No hay lugares disponibles
               </p>
