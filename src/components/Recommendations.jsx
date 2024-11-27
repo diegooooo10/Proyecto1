@@ -13,7 +13,7 @@ export const Recommendations = () => {
       <h2 className="mb-4 text-2xl font-bold lg:mb-10 text-start dark:text-white text-tertiary">
         Our Recommendations
       </h2>
-      <div className="flex flex-row w-auto h-64 gap-6 space-x-5 overflow-x-scroll custom-scroll">
+      <div className="flex flex-row w-auto h-64 gap-6 overflow-x-scroll custom-scroll">
         {recomendaciones.map((lugar, index) => {
           // Alterna las clases según el índice (pares o impares)
           const isEven = index % 2 === 0;

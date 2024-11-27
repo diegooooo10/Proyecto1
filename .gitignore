@@ -3,22 +3,120 @@ logs
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment variables
+.env
+.env.*.local
 
-# Editor directories and files
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.js
+
+# Build output
+dist/
+dist-ssr/
+.out/
+build/
+.cache/
+
+# Next.js
+.next/
+out/
+
+# Nuxt.js
+.nuxt/
+static/
+
+# Vue
+.vuepress/
+.hugo/
+
+# SvelteKit
+.svelte-kit/
+__sapper__/
+
+# Vite
+.vite/
+temp/
+
+# Remix
+.build/
+
+# MacOS
+.DS_Store
+
+# Linux
+*.swp
+*.swo
+
+# Windows
+Thumbs.db
+*.stackdump
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
+.idea/*
+
+# JetBrains
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+
+# VSCode Workspace
+*.code-workspace
+
+# Miscellaneous
+*.tgz
+*.lock-wscript
+.venv/
+.vscode-test/
+
+# Temporary files
+*.tmp
+*.temp
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directories
+coverage/
+*.lcov
+
+# Debug directories
+debug/
+output/
+
+# Security
+secret/
+keys/
+*.pem
+*.crt
+*.key
+
+# Firebase
+.firebaserc
+firebase-debug.log
+
+# Python
+*.py[cod]
+__pycache__/
+venv/
+
+# Misc
+*.log
+*.sql
+*.sqlite

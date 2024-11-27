@@ -17,7 +17,7 @@ export const Login = () => {
     password: "",
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
   const { login, register } = useContext(UserLoginContext);
