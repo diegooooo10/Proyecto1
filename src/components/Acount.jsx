@@ -1,49 +1,70 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { ArrowReturn, Dark, User } from "../svg";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { Link } from "react-router-dom";
 import { ReservePlacesContext } from "../context/ReservePlacesContext";
 import { UserLoginContext } from "../context/UserLoginContext";
+import { UserProfileContext } from "../context/ProfileContext"; // Importa el contexto de perfil de usuario
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../../private/services/firebase";
+import { useAuth } from "../context/UserLoginProvider";
 
 export const Acount = () => {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
   const { upcomingTrips, tripsMade } = useContext(ReservePlacesContext);
-  const { clearTrips } = useContext(ReservePlacesContext);
-  const {logout} = useContext(UserLoginContext)
+  const { logOut } = useContext(UserLoginContext);
+  const { profileImage, setProfileImage } = useContext(UserProfileContext); // Usa el contexto para el perfil de usuario
+  const user = auth.currentUser;  // Obtener el usuario actual
+  const { currentUser, isAuthenticated } = useAuth();
 
-  const [profileImage, setProfileImage] = useState(null); // Estado para la imagen de perfil
-
-  // Recuperar la imagen desde localStorage cuando el componente se monta
-  useEffect(() => {
-    const savedProfileImage = localStorage.getItem("profileImage");
-    if (savedProfileImage) {
-      setProfileImage(savedProfileImage); // Establecer la imagen guardada
-    }
-  }, []);
 
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
+
   const handleLogout = () => {
-    localStorage.removeItem("profileImage");
-    logout();
-    clearTrips();
+    logOut();
   };
 
-  const imageProfileChange = (e) => {
-    if (e.target.files[0]) {
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setProfileImage(userData.profilePicture || null);  // Actualizar el estado con la URL de la imagen
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, [user, setProfileImage]);  // Esto se ejecuta solo cuando el usuario cambia
+
+  const imageProfileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target.result;
-        setProfileImage(imageUrl); // Establecer la imagen seleccionada
-        localStorage.setItem("profileImage", imageUrl); // Guardar la imagen en localStorage
+      reader.onload = async (event) => {
+        const imageUrl = event.target.result;
+
+        // Actualizar el estado con la URL de la imagen
+        setProfileImage(imageUrl);
+
+        // Actualizar la imagen en Firestore
+        if (user) {
+          const userRef = doc(db, "users", user.uid);
+          await updateDoc(userRef, {
+            profilePicture: imageUrl,  // Guardar la URL de la imagen en Firestore
+          });
+        }
       };
-      reader.readAsDataURL(e.target.files[0]);
-    } else {
-      console.log("No image selected");
+      reader.readAsDataURL(file); // Leer el archivo como URL base64
     }
   };
-  
+  if (!isAuthenticated) {
+    return <div>Please log in to view your profile.</div>;
+  }
 
   return (
     <div className="min-h-screen p-4 space-y-6 bg-white dark:bg-slate-800">
@@ -78,17 +99,18 @@ export const Acount = () => {
           accept="image/png,image/jpeg"
           name="profile"
           id="profile"
-          onChange={imageProfileChange}
+          onChange={imageProfileChange} // Llama a la función cuando se selecciona un archivo
           className="hidden"
         />
         <p className="mt-4 text-lg font-medium text-black dark:text-white">
-          User name
+          {currentUser?.name}
         </p>
-          <button 
+        <button
           onClick={handleLogout}
-          className="inline-block px-4 py-2 mt-8 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500">
-            Logout
-          </button>
+          className="inline-block px-4 py-2 mt-8 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500"
+        >
+          Logout
+        </button>
       </header>
 
       <article>
@@ -124,7 +146,7 @@ export const Acount = () => {
       <article>
         <h2 className="sectionTitle">Upcoming trips</h2>
         {upcomingTrips.length === 0 ? (
-          <p className="w-full text-xl text-center text-black  dark:text-white">
+          <p className="w-full text-xl text-center text-black dark:text-white">
             {`You don't have any upcoming trips`}
           </p>
         ) : (

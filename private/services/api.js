@@ -1,71 +1,36 @@
-import { 
-  auth,
+import {
+  sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  db,
-  doc,
-  getDoc,
-  getDocs,
-  collection,
-  updateDoc,
-  addDoc,
-  query,
-  where,
-} from "./firebase";
+} from "firebase/auth";
 
-const collectionName = "usuarios";
+import { auth } from "./firebase";
 
-// Crear un usuario en Firestore
-export const createUser = async (obj) => {
-  try {
-    const colRef = collection(db, collectionName);
-    const data = await addDoc(colRef, obj);
-    return data.id;
-  } catch (error) {
-    console.error("Error creando usuario:", error);
-    throw error;
-  }
+// Función para crear un nuevo usuario
+export const doCreateUserWithEmailAndPassword = async (email, password) => {
+  return createUserWithEmailAndPassword(auth, email, password);
 };
 
-// Actualizar usuario
-export const updateUser = async (id, obj) => {
-  try {
-    const docRef = doc(db, collectionName, id);
-    await updateDoc(docRef, obj);
-  } catch (error) {
-    console.error("Error actualizando usuario:", error);
-    throw error;
-  }
+// Función para iniciar sesión
+export const doSignInWithEmailAndPassword = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
 };
 
-// Obtener todos los usuarios
-export const getUser = async () => {
-  try {
-    const colRef = collection(db, collectionName);
-    const result = await getDocs(query(colRef));
-    return getArrayFromCollection(result);
-  } catch (error) {
-    console.error("Error obteniendo usuarios:", error);
-    throw error;
-  }
+// Función para cerrar sesión
+export const doSignOut = () => {
+  return signOut(auth);
 };
 
-// Obtener usuario por ID
-export const getUserById = async (id) => {
-  try {
-    const docRef = doc(db, collectionName, id);
-    const result = await getDoc(docRef);
-    return result.data();
-  } catch (error) {
-    console.error("Error obteniendo usuario por ID:", error);
-    throw error;
-  }
+// Función para restablecer contraseña
+export const doPasswordReset = (email) => {
+  return sendPasswordResetEmail(auth, email);
 };
 
-// Función auxiliar: convertir colección en array
-const getArrayFromCollection = (collection) => {
-  return collection.docs.map((doc) => {
-    return { ...doc.data(), id: doc.id };
+// Función para enviar correo de verificación
+export const doSendEmailVerification = () => {
+  return sendEmailVerification(auth.currentUser, {
+    url: `${window.location.origin}/home`,
   });
 };

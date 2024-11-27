@@ -5,15 +5,18 @@ import { DarkModeProvider } from "./context/DarkModeProvider";
 import "./index.css";
 import { ReservePlacesProvider } from "./context/ReservePlacesProvider";
 import { UserLoginProvider } from "./context/UserLoginProvider";
+import { UserProfileProvider } from "./context/ProfileProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <UserLoginProvider>
-      <DarkModeProvider>
-        <ReservePlacesProvider>
-          <App />
-        </ReservePlacesProvider>
-      </DarkModeProvider>
-    </UserLoginProvider>
+    <UserProfileProvider>
+      <UserLoginProvider>
+        <DarkModeProvider>
+          <ReservePlacesProvider>
+            <App />
+          </ReservePlacesProvider>
+        </DarkModeProvider>
+      </UserLoginProvider>
+    </UserProfileProvider>
   </StrictMode>
 );

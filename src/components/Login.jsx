@@ -1,13 +1,17 @@
-import { useState, useContext, useEffect } from "react";
-import { ArrowReturn, Dark, Eye, EyeOff } from "../svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { DarkModeContext } from "../context/DarkModeContext";
-import { UserLoginContext } from "../context/UserLoginContext";
-import { PasswordResetModal } from "./ModalForgotPassword"; // Asegúrate de importar el modal
+import { PasswordResetModal } from "./ModalForgotPassword";
+import {
+  doSignInWithEmailAndPassword,
+  doCreateUserWithEmailAndPassword,
+  doPasswordReset,
+} from "../../private/services/api";
+import { ArrowReturn, Dark } from "../svg";
 
 export const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -15,13 +19,13 @@ export const Login = () => {
     email: "",
     phone: "",
     password: "",
+    passwordConfirm: "",
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
-  const { login, register } = useContext(UserLoginContext);
-  const navigate = useNavigate();
+
+  const handleToggle = () => setIsDarkMode(!isDarkMode);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -42,8 +46,10 @@ export const Login = () => {
       if (!formData.phone.trim() || !/^\d{10}$/.test(formData.phone)) {
         return "The phone number must be valid (10 digits).";
       }
+      if (formData.password !== formData.passwordConfirm) {
+        return "Passwords do not match.";
+      }
     }
-
     if (
       !formData.email.trim() ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
@@ -53,8 +59,7 @@ export const Login = () => {
     if (!formData.password || formData.password.length < 6) {
       return "The password must be at least 6 characters.";
     }
-
-    return ""; // Sin errores
+    return "";
   };
 
   const handleSubmit = async (e) => {
@@ -68,48 +73,37 @@ export const Login = () => {
       return;
     }
 
-    if (activeTab === "login") {
-      const success = login(formData.email, formData.password);
-      if (success) {
-        navigate("/account");
-      } else {
-        setError("Credenciales incorrectas.");
+    try {
+      if (activeTab === "login") {
+        await doSignInWithEmailAndPassword(formData.email, formData.password);
+        alert("Logged in successfully!");
+      } else if (activeTab === "register") {
+        await doCreateUserWithEmailAndPassword(
+          formData.email,
+          formData.password
+        );
+        alert("Account created successfully!");
+        setActiveTab("login");
       }
-    } else if (activeTab === "register") {
-      register({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-      });
-      setActiveTab("login");
+    } catch (err) {
+      setError(err.message || "An error occurred. Please try again.");
     }
 
     setIsLoading(false);
   };
 
-  const handleToggle = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true); // Abrir modal
+  const handlePasswordReset = async (email) => {
+    try {
+      await doPasswordReset(email);
+      alert("Password reset email sent!");
+      setIsModalOpen(false);
+    } catch (err) {
+      setError(err.message || "Error sending password reset email.");
+    }
   };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar modal
-  };
-
-  useEffect(() => {
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      password: "",
-    });
-    setShowPassword(false)
-    setError("");
-  }, [activeTab]);
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-white dark:bg-slate-800">
@@ -203,25 +197,40 @@ export const Login = () => {
               Password
             </label>
             <div className="relative">
-
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              maxLength={20}
-              className="input-common"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-[8px] text-gray-400 hover:text-gray-600"
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                maxLength={20}
+                className="input-common"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-[8px] text-gray-400 hover:text-gray-600"
+              >
+                {/* Add your Eye/EyeOff SVG */}
+              </button>
             </div>
           </div>
+          {activeTab === "register" && (
+            <div>
+              <label htmlFor="passwordConfirm" className="label-common">
+                Confirm Password
+              </label>
+              <input
+                id="passwordConfirm"
+                type={showPassword ? "text" : "password"}
+                maxLength={20}
+                className="input-common"
+                placeholder="Confirm your password"
+                value={formData.passwordConfirm}
+                onChange={handleChange}
+              />
+            </div>
+          )}
           <button type="submit" disabled={isLoading} className="button-common">
             {isLoading
               ? "Loading..."
@@ -244,7 +253,11 @@ export const Login = () => {
       </div>
 
       {/* Modal for resetting password */}
-      <PasswordResetModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <PasswordResetModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handlePasswordReset}
+      />
     </div>
   );
 };

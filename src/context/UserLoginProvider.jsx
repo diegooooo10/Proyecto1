@@ -1,33 +1,67 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserLoginContext } from "./UserLoginContext";
+import { auth, db } from "../../private/services/firebase"; // Asegúrate de importar db correctamente
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore"; // Importa las funciones de Firestore necesarias
 
 export const UserLoginProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem('loggedIn') === 'true'
-);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-const login = (email, password) => {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, initializeUser);
+    return unsubscribe;
+  }, []);
 
-  if (storedUser?.email === email && storedUser?.password === password) {
-      localStorage.setItem('loggedIn', 'true');
+  const initializeUser = async (user) => {
+    if (user) {
+      // Establecer datos básicos del usuario (como uid y email)
+      setCurrentUser({ ...user });
+
+      // Obtener los datos adicionales del perfil desde Firestore
+      const userDocRef = doc(db, "users", user.uid); // Suponiendo que tienes una colección 'users' en Firestore
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        // Si el documento existe, agregamos los datos del perfil
+        setCurrentUser((prevUser) => ({
+          ...prevUser,
+          ...userDoc.data(), // Esto agrega los datos adicionales del perfil, como nombre, teléfono, etc.
+        }));
+      } else {
+        console.log("No se encontraron datos adicionales del usuario.");
+      }
+
       setIsAuthenticated(true);
-      return true;
-  }
-  return false;
-};
-const register = (user) => {
-  localStorage.setItem('user', JSON.stringify(user));
-  
-};
-
-  const logout = () => {
-    localStorage.removeItem("loggedIn");
-    setIsAuthenticated(false);
+    } else {
+      setCurrentUser(null);
+      setIsAuthenticated(false);
+    }
+    setLoading(false);
   };
+
+  const logOut = () => {
+    auth.signOut();
+    setIsAuthenticated(false);
+    setCurrentUser(null);
+  };
+
+  const value = {
+    currentUser,
+    isAuthenticated,
+    loading,
+    logOut,
+  };
+
   return (
-    <UserLoginContext.Provider value={{ isAuthenticated, login,register ,logout }}>
-      {children}
+    <UserLoginContext.Provider value={value}>
+      {!loading && children}
     </UserLoginContext.Provider>
   );
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => {
+  return useContext(UserLoginContext);
 };

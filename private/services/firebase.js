@@ -3,21 +3,8 @@ import {
   getAuth,
   setPersistence,
   browserLocalPersistence,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  sendPasswordResetEmail,
 } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  addDoc,
-  where,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 // Configuración de Firebase
