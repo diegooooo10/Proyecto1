@@ -120,7 +120,7 @@ export const Acount = () => {
             {`You haven't booked any trips yet`}
           </p>
         ) : (
-          <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
+          <div className="flex flex-row w-full h-64 gap-4 overflow-x-scroll custom-scroll">
             {tripsMade.map((lugar, index) => {
               const isEven = index % 2 === 0;
 
@@ -150,7 +150,7 @@ export const Acount = () => {
             {`You don't have any upcoming trips`}
           </p>
         ) : (
-          <div className="flex flex-row w-64 h-64 gap-4 overflow-x-scroll custom-scroll">
+          <div className="flex flex-row w-full h-64 gap-4 overflow-x-scroll custom-scroll">
             {upcomingTrips.map((lugar, index) => {
               const isEven = index % 2 === 0;
 

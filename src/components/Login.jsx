@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { PasswordResetModal } from "./ModalForgotPassword";
@@ -7,7 +7,7 @@ import {
   doCreateUserWithEmailAndPassword,
   doPasswordReset,
 } from "../../private/services/api";
-import { ArrowReturn, Dark } from "../svg";
+import { ArrowReturn, Dark, Eye, EyeOff } from "../svg";
 
 export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,6 +61,17 @@ export const Login = () => {
     }
     return "";
   };
+  useEffect(() => {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      passwordConfirm: "",
+    });
+    setError(""); // Limpiar también el error al cambiar de tab
+    setShowPassword(false)
+  }, [activeTab]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -213,7 +224,7 @@ export const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-[8px] text-gray-400 hover:text-gray-600"
               >
-                {/* Add your Eye/EyeOff SVG */}
+                {showPassword ? <EyeOff /> : <Eye />}
               </button>
             </div>
           </div>

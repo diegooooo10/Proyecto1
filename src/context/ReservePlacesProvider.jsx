@@ -97,12 +97,6 @@ export const ReservePlacesProvider = ({ children }) => {
     }
   };
 
-  // Limpia los viajes (cuando el usuario cierre sesión)
-  const clearTrips = () => {
-    setPlaces([]);
-    setUpcomingTrips([]);
-    setTripsMade([]);
-  };
 
   return (
     <ReservePlacesContext.Provider
@@ -111,7 +105,7 @@ export const ReservePlacesProvider = ({ children }) => {
         upcomingTrips,
         tripsMade,
         addPlace,
-        clearTrips,
+  
       }}
     >
       {children}

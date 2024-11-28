@@ -6,7 +6,7 @@
   @apply w-full p-8 bg-center bg-cover rounded-lg shadow-md;
 }
 .cardTrending2 {
-  @apply flex items-end w-full bg-center bg-cover rounded-lg shadow-md;
+  @apply flex items-end w-64 bg-center bg-cover rounded-lg shadow-md;
 }
 
 .cardContentEven {
