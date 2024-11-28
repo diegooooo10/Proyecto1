@@ -5,7 +5,6 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -21,7 +20,6 @@ const firebaseApp = initializeApp(firebaseConfig);
 // Exportar instancias de servicios Firebase
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
-export const storage = getStorage(firebaseApp);
 
 // Configuración de persistencia para autenticación
 setPersistence(auth, browserLocalPersistence)

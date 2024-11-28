@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { auth, db } from "../../private/services/firebase";
+import { db } from "../../private/services/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { UserProfileContext } from "./ProfileContext";
+import { user, userId } from "../../private/services/api";
 
 export const UserProfileProvider = ({ children }) => {
   const [profileImage, setProfileImage] = useState(null);
-  const user = auth.currentUser;
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
+      if (user()) {
+        const userRef = doc(db, "users", userId());
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
@@ -20,11 +20,10 @@ export const UserProfileProvider = ({ children }) => {
     };
 
     fetchUserData();
-  }, [user]);
+  }, [user()]);
 
-  // Maneja la selección de imagen y la convierte a URL
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[userId()];
     if (file) {
       const reader = new FileReader();
       reader.onload = async (event) => {
@@ -32,9 +31,9 @@ export const UserProfileProvider = ({ children }) => {
         setProfileImage(imageUrl);
 
         // Actualiza Firestore con la URL de la imagen
-        if (user) {
-          const userRef = doc(db, "users", user.uid);
-          await setDoc(userRef, { profilePicture: imageUrl }, { merge: true });
+        if (user()) {
+          const userRef = doc(db, "users", userId());
+          await setDoc(userRef, { profilePicture: imageUrl });
         }
       };
       reader.readAsDataURL(file);
@@ -46,7 +45,7 @@ export const UserProfileProvider = ({ children }) => {
       value={{
         profileImage,
         setProfileImage,
-        handleImageChange, // Proporciona la función para cambiar la imagen
+        handleImageChange,
       }}
     >
       {children}

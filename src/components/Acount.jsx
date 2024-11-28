@@ -6,17 +6,17 @@ import { ReservePlacesContext } from "../context/ReservePlacesContext";
 import { UserLoginContext } from "../context/UserLoginContext";
 import { UserProfileContext } from "../context/ProfileContext"; // Importa el contexto de perfil de usuario
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../private/services/firebase";
+import { db } from "../../private/services/firebase";
 import { useAuth } from "../context/UserLoginProvider";
+import { user, userId } from "../../private/services/api";
 
 export const Acount = () => {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
   const { upcomingTrips, tripsMade } = useContext(ReservePlacesContext);
   const { logOut } = useContext(UserLoginContext);
   const { profileImage, setProfileImage } = useContext(UserProfileContext); // Usa el contexto para el perfil de usuario
-  const user = auth.currentUser;  // Obtener el usuario actual
-  const { currentUser, isAuthenticated } = useAuth();
 
+  const { currentUser, isAuthenticated } = useAuth();
 
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
@@ -28,18 +28,18 @@ export const Acount = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
+      if (user()) {
+        const userRef = doc(db, "users", userId());
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setProfileImage(userData.profilePicture || null);  // Actualizar el estado con la URL de la imagen
+          setProfileImage(userData.profilePicture || null); // Actualizar el estado con la URL de la imagen
         }
       }
     };
 
     fetchUserProfile();
-  }, [user, setProfileImage]);  // Esto se ejecuta solo cuando el usuario cambia
+  }, [user(), setProfileImage]); // Esto se ejecuta solo cuando el usuario cambia
 
   const imageProfileChange = async (e) => {
     const file = e.target.files[0];
@@ -52,10 +52,10 @@ export const Acount = () => {
         setProfileImage(imageUrl);
 
         // Actualizar la imagen en Firestore
-        if (user) {
-          const userRef = doc(db, "users", user.uid);
+        if (user()) {
+          const userRef = doc(db, "users", userId());
           await updateDoc(userRef, {
-            profilePicture: imageUrl,  // Guardar la URL de la imagen en Firestore
+            profilePicture: imageUrl, // Guardar la URL de la imagen en Firestore
           });
         }
       };
@@ -85,10 +85,10 @@ export const Acount = () => {
             <img
               src={profileImage} // Mostrar la imagen seleccionada
               alt="Profile"
-              className="object-cover w-32 h-32 mb-4 rounded-full"
+              className="object-cover w-32 h-32 rounded-full"
             />
           ) : (
-            <User className="w-32 h-32 mb-4 text-gray-500 dark:text-gray-300" /> // Mostrar el componente SVG por defecto
+            <User className="w-32 h-32 text-gray-500 dark:text-gray-300" /> // Mostrar el componente SVG por defecto
           )}
         </div>
         <label htmlFor="profile" className="profileButton">
@@ -102,12 +102,12 @@ export const Acount = () => {
           onChange={imageProfileChange} // Llama a la función cuando se selecciona un archivo
           className="hidden"
         />
-        <p className="mt-4 text-lg font-medium text-black dark:text-white">
+        <p className="m-3 text-lg font-medium text-black dark:text-white">
           {currentUser?.name}
         </p>
         <button
           onClick={handleLogout}
-          className="inline-block px-4 py-2 mt-8 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500"
+          className="inline-block px-4 py-2 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500"
         >
           Logout
         </button>

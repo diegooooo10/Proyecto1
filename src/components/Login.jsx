@@ -65,8 +65,8 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
     const validationError = validateInputs();
+
     if (validationError) {
       setError(validationError);
       setIsLoading(false);
@@ -80,7 +80,9 @@ export const Login = () => {
       } else if (activeTab === "register") {
         await doCreateUserWithEmailAndPassword(
           formData.email,
-          formData.password
+          formData.password,
+          formData.name,
+          formData.phone
         );
         alert("Account created successfully!");
         setActiveTab("login");
