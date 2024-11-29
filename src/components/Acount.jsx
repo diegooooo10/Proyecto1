@@ -3,21 +3,39 @@ import { ArrowReturn, Dark, User } from "../svg";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { Link } from "react-router-dom";
 import { ReservePlacesContext } from "../context/ReservePlacesContext";
-import { UserLoginContext } from "../context/UserLoginContext";
 import { UserProfileContext } from "../context/ProfileContext"; // Importa el contexto de perfil de usuario
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../private/services/firebase";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { auth, db } from "../../private/services/firebase"; // Asegúrate de importar db correctamente
 import { useAuth } from "../context/UserLoginProvider";
 import { user, userId } from "../../private/services/api";
 
 export const Acount = () => {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
-  const { upcomingTrips, tripsMade } = useContext(ReservePlacesContext);
-  const { logOut } = useContext(UserLoginContext);
-  const { profileImage, setProfileImage } = useContext(UserProfileContext); // Usa el contexto para el perfil de usuario
+  const {
+    upcomingTrips,
+    tripsMade,
+    setPlaces,
+    setUpcomingTrips,
+    setTripsMade,
+  } = useContext(ReservePlacesContext);
+  const { profileImage, setProfileImage } = useContext(UserProfileContext);
 
-  const { currentUser, isAuthenticated } = useAuth();
+  const { currentUser, isAuthenticated, setIsAuthenticated, setCurrentUser } =
+    useAuth();
 
+  const logOut = () => {
+    auth.signOut();
+    setIsAuthenticated(false);
+    setCurrentUser(null);
+    setProfileImage(null);
+    setPlaces([]), setUpcomingTrips([]), setTripsMade([]);
+  };
   const handleToggle = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -29,17 +47,41 @@ export const Acount = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (user()) {
-        const userRef = doc(db, "users", userId());
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setProfileImage(userData.profilePicture || null); // Actualizar el estado con la URL de la imagen
+        try {
+          const userRef = doc(db, "users", userId());
+          const userDoc = await getDoc(userRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            // Actualiza la imagen de perfil
+            setProfileImage(userData.profilePicture || null);
+
+            // Carga los viajes desde Firestore
+            const futureTripsRef = collection(userRef, "futureTrips");
+            const pastTripsRef = collection(userRef, "pastTrips");
+
+            const [futureTripsSnapshot, pastTripsSnapshot] = await Promise.all([
+              getDocs(futureTripsRef),
+              getDocs(pastTripsRef),
+            ]);
+
+            const futureTrips = futureTripsSnapshot.docs.map((doc) =>
+              doc.data()
+            );
+            const pastTrips = pastTripsSnapshot.docs.map((doc) => doc.data());
+
+            // Actualiza los estados de viajes
+            setUpcomingTrips(futureTrips);
+            setTripsMade(pastTrips);
+          }
+        } catch (error) {
+          console.error("Error al cargar el perfil o los viajes:", error);
         }
       }
     };
 
     fetchUserProfile();
-  }, [user(), setProfileImage]); // Esto se ejecuta solo cuando el usuario cambia
+  }, [userId]); // Este efecto se ejecuta cada vez que cambie el usuario
 
   const imageProfileChange = async (e) => {
     const file = e.target.files[0];

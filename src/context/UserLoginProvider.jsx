@@ -41,17 +41,14 @@ export const UserLoginProvider = ({ children }) => {
     setLoading(false);
   };
 
-  const logOut = () => {
-    auth.signOut();
-    setIsAuthenticated(false);
-    setCurrentUser(null);
-  };
+
 
   const value = {
     currentUser,
     isAuthenticated,
     loading,
-    logOut,
+    setIsAuthenticated,
+    setCurrentUser
   };
 
   return (

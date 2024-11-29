@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ReservePlacesContext } from "./ReservePlacesContext";
 import { db } from "../../private/services/firebase";
 import { collection, getDocs, addDoc, doc } from "firebase/firestore";
-import { user, userId } from "../../private/services/api";
+import { userId } from "../../private/services/api";
 
 export const ReservePlacesProvider = ({ children }) => {
   const [places, setPlaces] = useState([]);
@@ -10,9 +10,10 @@ export const ReservePlacesProvider = ({ children }) => {
   const [tripsMade, setTripsMade] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
+
   useEffect(() => {
     // Establece el usuario cuando se monta el componente
-    const loggedInUser = user();
+    const loggedInUser = userId();
     setCurrentUser(loggedInUser);
   }, []);
 
@@ -21,6 +22,7 @@ export const ReservePlacesProvider = ({ children }) => {
       // Cargar los viajes si el usuario está autenticado
       loadUserTrips();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]); // Este efecto depende de `currentUser`
 
   // Define las referencias de las colecciones de Firestore
@@ -39,32 +41,31 @@ export const ReservePlacesProvider = ({ children }) => {
 
   // Cargar los viajes del usuario desde Firestore
   const loadUserTrips = async () => {
-    if (!currentUser) return;
-
+    if (!currentUser) return; // Sal si no hay usuario
+  
     try {
-      // Obtener los viajes pasados y futuros
-      const pastTripsSnapshot = await getDocs(pastTripsRef);
-      const futureTripsSnapshot = await getDocs(futureTripsRef);
-
+      const [pastTripsSnapshot, futureTripsSnapshot] = await Promise.all([
+        getDocs(pastTripsRef),
+        getDocs(futureTripsRef),
+      ]);
+  
       const pastTrips = pastTripsSnapshot.docs.map((doc) => doc.data());
       const futureTrips = futureTripsSnapshot.docs.map((doc) => doc.data());
-
-      // Combina los viajes futuros y pasados
+  
       setPlaces([...pastTrips, ...futureTrips]);
-
-      // Categoriza los viajes
-      const {
-        futureTrips: categorizedFutureTrips,
-        pastTrips: categorizedPastTrips,
-      } = categorizeTrips([...pastTrips, ...futureTrips]);
-
+  
+      const { futureTrips: categorizedFutureTrips, pastTrips: categorizedPastTrips } = categorizeTrips([
+        ...pastTrips,
+        ...futureTrips,
+      ]);
+  
       setUpcomingTrips(categorizedFutureTrips);
       setTripsMade(categorizedPastTrips);
     } catch (error) {
       console.error("Error al cargar los viajes:", error);
     }
   };
-
+  
   // Guardar los viajes en Firestore
   const addPlace = async (newPlace) => {
     if (!currentUser) return;
@@ -105,6 +106,9 @@ export const ReservePlacesProvider = ({ children }) => {
         upcomingTrips,
         tripsMade,
         addPlace,
+        setPlaces,
+        setUpcomingTrips,
+        setTripsMade,
   
       }}
     >
