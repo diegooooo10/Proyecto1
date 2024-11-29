@@ -87,7 +87,7 @@ export const Login = () => {
     try {
       if (activeTab === "login") {
         await doSignInWithEmailAndPassword(formData.email, formData.password);
-        alert("Logged in successfully!");
+        //alert("Logged in successfully!");
       } else if (activeTab === "register") {
         await doCreateUserWithEmailAndPassword(
           formData.email,
@@ -95,7 +95,7 @@ export const Login = () => {
           formData.name,
           formData.phone
         );
-        alert("Account created successfully!");
+        //alert("Account created successfully!");
         setActiveTab("login");
       }
     } catch (err) {
@@ -111,7 +111,7 @@ export const Login = () => {
   const handlePasswordReset = async (email) => {
     try {
       await doPasswordReset(email);
-      alert("Password reset email sent!");
+      //alert("Password reset email sent!");
       setIsModalOpen(false);
     } catch (err) {
       setError(err.message || "Error sending password reset email.");

@@ -30,7 +30,7 @@ export const UserLoginProvider = ({ children }) => {
           ...userDoc.data(), // Esto agrega los datos adicionales del perfil, como nombre, teléfono, etc.
         }));
       } else {
-        console.log("No se encontraron datos adicionales del usuario.");
+        console.log("No additional user data was found.");
       }
 
       setIsAuthenticated(true);

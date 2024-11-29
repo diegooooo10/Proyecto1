@@ -23,5 +23,3 @@ export const auth = getAuth(firebaseApp);
 
 // Configuración de persistencia para autenticación
 setPersistence(auth, browserLocalPersistence)
-  .then(() => console.log("Persistencia de sesión configurada"))
-  .catch((error) => console.error("Error configurando persistencia:", error));

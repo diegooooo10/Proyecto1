@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { db } from "../../private/services/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";

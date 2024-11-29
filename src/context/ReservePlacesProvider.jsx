@@ -62,7 +62,7 @@ export const ReservePlacesProvider = ({ children }) => {
       setUpcomingTrips(categorizedFutureTrips);
       setTripsMade(categorizedPastTrips);
     } catch (error) {
-      console.error("Error al cargar los viajes:", error);
+      console.error("Error loading trips:", error);
     }
   };
   
@@ -94,7 +94,7 @@ export const ReservePlacesProvider = ({ children }) => {
       setUpcomingTrips(categorizedFutureTrips);
       setTripsMade(categorizedPastTrips);
     } catch (error) {
-      console.error("Error al agregar el lugar:", error);
+      console.error("Error adding place:", error);
     }
   };
 

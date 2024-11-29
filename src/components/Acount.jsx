@@ -6,7 +6,8 @@ import { ReservePlacesContext } from "../context/ReservePlacesContext";
 import { UserProfileContext } from "../context/ProfileContext"; // Importa el contexto de perfil de usuario
 import {
   collection,
-  doc,
+/*   deleteDoc,
+ */  doc,
   getDoc,
   getDocs,
   updateDoc,
@@ -75,12 +76,13 @@ export const Acount = () => {
             setTripsMade(pastTrips);
           }
         } catch (error) {
-          console.error("Error al cargar el perfil o los viajes:", error);
+          console.error("Error loading profile or trips:", error);
         }
       }
     };
 
     fetchUserProfile();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]); // Este efecto se ejecuta cada vez que cambie el usuario
 
   const imageProfileChange = async (e) => {
@@ -107,6 +109,27 @@ export const Acount = () => {
   if (!isAuthenticated) {
     return <div>Please log in to view your profile.</div>;
   }
+/*   const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+  
+    if (!auth.currentUser) {
+      console.error("No hay un usuario autenticado.");
+      return;
+    }
+  
+    try {
+      // Eliminar el documento del usuario en Firestore
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      await deleteDoc(userRef);
+  
+      // Eliminar la cuenta del usuario de Firebase Authentication
+      await auth.currentUser.delete();
+  
+      console.log("La cuenta ha sido eliminada exitosamente.");
+    } catch (error) {
+      console.error("Error al eliminar la cuenta:", error);
+    }
+  }; */
 
   return (
     <div className="min-h-screen p-4 space-y-6 bg-white dark:bg-slate-800">
@@ -147,12 +170,21 @@ export const Acount = () => {
         <p className="m-3 text-lg font-medium text-black dark:text-white">
           {currentUser?.name}
         </p>
+        <div className="space-x-5">
+
         <button
           onClick={handleLogout}
           className="inline-block px-4 py-2 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500"
         >
           Logout
         </button>
+{/*         <button
+          onClick={handleDeleteAccount}
+          className="inline-block px-4 py-2 text-sm font-medium text-white transition rounded-md cursor-pointer"
+        >
+          Delete Account
+        </button> */}
+        </div>
       </header>
 
       <article>
