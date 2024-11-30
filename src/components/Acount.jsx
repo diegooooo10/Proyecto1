@@ -129,24 +129,20 @@ export const Acount = () => {
       await reauthenticateWithCredential(currentUser, credential);
   
       // Referencia al documento del usuario en Firestore
-      const userRef = doc(db, "users", userId);
-      const futureTripsRef = collection(userRef, "futureTrips")
-      const pastTripsRef = collection(userRef, "pastTrips")
+      const userRef = doc(db, "users", userId());
+
   
       // Elimina el documento en Firestore
       await deleteDoc(userRef);
-      await deleteDoc(futureTripsRef)
-      await deleteDoc(pastTripsRef)
-  
+
       // Elimina la cuenta del usuario autenticado
       await deleteUser(currentUser);
 
   
       console.log("User account and data deleted successfully.");
-      setIsAuthenticated(false);
-      setCurrentUser(null);
-      setProfileImage(null);
+      setIsAuthenticated(false);  
       setPlaces([]), setUpcomingTrips([]), setTripsMade([]);
+      setProfileImage(null);
     } catch (error) {
       console.error("Error deleting account or data:", error.message);
       throw new Error("Failed to delete account: " + error.message);
