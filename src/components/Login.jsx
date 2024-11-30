@@ -111,7 +111,6 @@ export const Login = () => {
   const handlePasswordReset = async (email) => {
     try {
       await doPasswordReset(email);
-      //alert("Password reset email sent!");
       setIsModalOpen(false);
     } catch (err) {
       setError(err.message || "Error sending password reset email.");

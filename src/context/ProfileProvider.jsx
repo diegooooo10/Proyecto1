@@ -4,7 +4,6 @@ import { db } from "../../private/services/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { UserProfileContext } from "./ProfileContext";
 import { user, userId } from "../../private/services/api";
-
 export const UserProfileProvider = ({ children }) => {
   const [profileImage, setProfileImage] = useState(null);
 

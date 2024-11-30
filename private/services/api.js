@@ -1,5 +1,4 @@
 import {
-  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -44,10 +43,4 @@ export const doPasswordReset = (email) => {
   return sendPasswordResetEmail(auth, email);
 };
 
-// Función para enviar correo de verificación
-export const doSendEmailVerification = () => {
-  return sendEmailVerification(auth.currentUser, {
-    url: `${window.location.origin}/home`,
-  });
-};
 

@@ -1,13 +1,14 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ArrowReturn, Dark, User } from "../svg";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { Link } from "react-router-dom";
 import { ReservePlacesContext } from "../context/ReservePlacesContext";
+import { deleteUser, reauthenticateWithCredential } from "firebase/auth";
 import { UserProfileContext } from "../context/ProfileContext"; // Importa el contexto de perfil de usuario
 import {
   collection,
-/*   deleteDoc,
- */  doc,
+  deleteDoc,
+  doc,
   getDoc,
   getDocs,
   updateDoc,
@@ -15,9 +16,12 @@ import {
 import { auth, db } from "../../private/services/firebase"; // Asegúrate de importar db correctamente
 import { useAuth } from "../context/UserLoginProvider";
 import { user, userId } from "../../private/services/api";
+import { ModalDeleteAccount } from "./ModalDeleteAccount";
+import { EmailAuthProvider } from "firebase/auth/web-extension";
 
 export const Acount = () => {
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
+  const [modal, setModal] = useState(false);
   const {
     upcomingTrips,
     tripsMade,
@@ -82,7 +86,7 @@ export const Acount = () => {
     };
 
     fetchUserProfile();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]); // Este efecto se ejecuta cada vez que cambie el usuario
 
   const imageProfileChange = async (e) => {
@@ -109,27 +113,52 @@ export const Acount = () => {
   if (!isAuthenticated) {
     return <div>Please log in to view your profile.</div>;
   }
-/*   const handleDeleteAccount = async (e) => {
-    e.preventDefault();
-  
-    if (!auth.currentUser) {
-      console.error("No hay un usuario autenticado.");
-      return;
-    }
-  
+
+  const deleteAccount = async (password) => {
     try {
-      // Eliminar el documento del usuario en Firestore
-      const userRef = doc(db, "users", auth.currentUser.uid);
+      // Verifica si hay un usuario autenticado
+      const currentUser = auth.currentUser;
+      if (!currentUser || !currentUser.email) {
+        throw new Error("There is no authenticated user.");
+      }
+  
+      // Crea las credenciales de autenticación con la contraseña proporcionada
+      const credential = EmailAuthProvider.credential(currentUser.email, password);
+  
+      // Reautentica al usuario con la contraseña
+      await reauthenticateWithCredential(currentUser, credential);
+  
+      // Referencia al documento del usuario en Firestore
+      const userRef = doc(db, "users", userId);
+      const futureTripsRef = collection(userRef, "futureTrips")
+      const pastTripsRef = collection(userRef, "pastTrips")
+  
+      // Elimina el documento en Firestore
       await deleteDoc(userRef);
+      await deleteDoc(futureTripsRef)
+      await deleteDoc(pastTripsRef)
   
-      // Eliminar la cuenta del usuario de Firebase Authentication
-      await auth.currentUser.delete();
+      // Elimina la cuenta del usuario autenticado
+      await deleteUser(currentUser);
+
   
-      console.log("La cuenta ha sido eliminada exitosamente.");
+      console.log("User account and data deleted successfully.");
+      setIsAuthenticated(false);
+      setCurrentUser(null);
+      setProfileImage(null);
+      setPlaces([]), setUpcomingTrips([]), setTripsMade([]);
     } catch (error) {
-      console.error("Error al eliminar la cuenta:", error);
+      console.error("Error deleting account or data:", error.message);
+      throw new Error("Failed to delete account: " + error.message);
     }
-  }; */
+  };
+
+  const closeModal = () => {
+    setModal(false); // Cierra el modal
+  };
+  const openModal = () => {
+    setModal(true); // Abre el modal
+  };
 
   return (
     <div className="min-h-screen p-4 space-y-6 bg-white dark:bg-slate-800">
@@ -171,19 +200,18 @@ export const Acount = () => {
           {currentUser?.name}
         </p>
         <div className="space-x-5">
-
-        <button
-          onClick={handleLogout}
-          className="inline-block px-4 py-2 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500"
-        >
-          Logout
-        </button>
-{/*         <button
-          onClick={handleDeleteAccount}
-          className="inline-block px-4 py-2 text-sm font-medium text-white transition rounded-md cursor-pointer"
-        >
-          Delete Account
-        </button> */}
+          <button
+            onClick={handleLogout}
+            className="inline-block px-4 py-2 text-sm font-medium text-white transition bg-red-600 rounded-md cursor-pointer hover:bg-red-500"
+          >
+            Logout
+          </button>
+          <button
+            onClick={() => openModal()}
+            className="inline-block px-4 py-2 text-sm font-medium text-black transition rounded-md cursor-pointer dark:text-white"
+          >
+            Delete Account
+          </button>
         </div>
       </header>
 
@@ -246,6 +274,7 @@ export const Acount = () => {
           </div>
         )}
       </article>
+      {modal && <ModalDeleteAccount onClose={closeModal} deleteAccount= {deleteAccount} />}
     </div>
   );
 };

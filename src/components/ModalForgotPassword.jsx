@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Close, Eye, EyeOff, Mail, PadLockPass } from "../svg";
 import { Modal } from "./ModalPass";
+import { getAuth, updatePassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../private/services/firebase";
 
 export function PasswordResetModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
@@ -9,30 +12,66 @@ export function PasswordResetModal({ isOpen, onClose }) {
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState("email");
   const [error, setError] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [succesMessage, setSuccessMessage] = useState("");
 
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
+
+    // Validar el email
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return setError("The email is not valid.");
     }
-    setStep("password");
-    setError("");
+
+    try {
+      const userDocRef = doc(db, "users", email); // Consulta en Firestore donde los usuarios están almacenados
+
+      // Verificar si el usuario existe en Firestore
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        setError("This email is not registered.");
+        return;
+      }
+
+      // Si el correo existe en la base de datos, permitir ingresar la nueva contraseña
+      setStep("password");
+      setError(""); // Limpiar cualquier error previo
+    } catch (err) {
+      setError("Error checking email. Please try again.", err);
+    }
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
+
+    // Validar si las contraseñas coinciden
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
       return;
     }
+
     if (newPassword.length < 8) {
-      setError("Password must be at least 8 characters long");
+      setError("Password must be at least 8 characters.");
       return;
     }
-    // Typically, you would call an API to update the password here
-    setStep("success");
-    setError("");
+
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser; // Obtener el usuario autenticado actual
+
+      if (!user) {
+        setError("No user is authenticated.");
+        return;
+      }
+
+      // Actualizar la contraseña en Firebase Authentication
+      await updatePassword(user, newPassword);
+      setStep("success");
+      setSuccessMessage("Your password has been updated successfully.");
+      setError(""); // Limpiar errores
+    } catch (err) {
+      setError("Error changing password. Please try again.", err);
+    }
   };
 
   const handleClose = () => {
@@ -41,6 +80,7 @@ export function PasswordResetModal({ isOpen, onClose }) {
     setConfirmPassword("");
     setStep("email");
     setError("");
+    setSuccessMessage("");
     onClose();
   };
 
@@ -55,7 +95,7 @@ export function PasswordResetModal({ isOpen, onClose }) {
       </h2>
 
       <p className="mt-2 text-sm text-center text-gray-600 dark:text-white">
-        Enter your email to reset your password
+        Enter your email to change your password
       </p>
 
       <form onSubmit={handleEmailSubmit} className="mt-6 space-y-4">
@@ -77,9 +117,7 @@ export function PasswordResetModal({ isOpen, onClose }) {
           />
         </div>
 
-        <button type="submit" className="button-common">
-          Continue
-        </button>
+        <button className="button-common">Continue</button>
       </form>
     </>
   );
@@ -94,15 +132,7 @@ export function PasswordResetModal({ isOpen, onClose }) {
         Create New Password
       </h2>
 
-      <p className="mt-2 text-sm text-center text-gray-600 dark:text-white">
-        Enter your new password
-      </p>
-
-      <form
-        autoComplete="none"
-        onSubmit={handlePasswordSubmit}
-        className="mt-6 space-y-4"
-      >
+      <form onSubmit={handlePasswordSubmit} className="mt-6 space-y-4">
         <div>
           <label
             htmlFor="newPassword"
@@ -154,12 +184,15 @@ export function PasswordResetModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={() => setStep("email")}
-            className="w-auto h-auto px-4 py-2 font-medium text-black transition-colors bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-auto h-auto px-4 py-2 font-medium text-black transition-colors bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-slate-800"
           >
             Back
           </button>
-          <button type="submit" className="w-auto h-auto px-4 py-2 font-medium text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-blue-800 disabled:opacity-50 disabled:cursor-not-allowed">
-            Reset Password
+          <button
+            type="submit"
+            className="w-auto h-auto px-4 py-2 font-medium text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-blue-800"
+          >
+            Change Password
           </button>
         </div>
       </form>
@@ -173,7 +206,7 @@ export function PasswordResetModal({ isOpen, onClose }) {
       </div>
 
       <h2 className="mt-4 mb-5 text-xl font-semibold text-gray-900 dark:text-white">
-        Password Reset Successfully
+        Password Changed Successfully
       </h2>
 
       <p className="mt-2 mb-5 text-sm text-gray-600 dark:text-white">
