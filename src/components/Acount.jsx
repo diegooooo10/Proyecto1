@@ -128,21 +128,45 @@ export const Acount = () => {
       // Reautentica al usuario con la contraseña
       await reauthenticateWithCredential(currentUser, credential);
   
-      // Referencia al documento del usuario en Firestore
-      const userRef = doc(db, "users", userId());
-
+      // Obtén el userId del usuario autenticado
+      const userId = currentUser.uid;
   
-      // Elimina el documento en Firestore
+      // Referencia al documento del usuario en Firestore
+      const userRef = doc(db, "users", userId);
+  
+      // Eliminar subcolecciones (futureTrips y pastTrips)
+      const deleteSubcollections = async (userId) => {
+        const subcollections = ["futureTrips", "pastTrips"]; // Define tus subcolecciones
+  
+        for (const subcollection of subcollections) {
+          const subcollectionRef = collection(db, `users/${userId}/${subcollection}`);
+          const subcollectionSnapshot = await getDocs(subcollectionRef);
+  
+          // Elimina cada documento dentro de la subcolección
+          for (const doc of subcollectionSnapshot.docs) {
+            await deleteDoc(doc.ref);
+          }
+        }
+      };
+  
+      // Llamar a la función para eliminar subcolecciones
+      await deleteSubcollections(userId);
+  
+      // Elimina el documento principal del usuario en Firestore
       await deleteDoc(userRef);
-
+  
       // Elimina la cuenta del usuario autenticado
       await deleteUser(currentUser);
-
   
       console.log("User account and data deleted successfully.");
-      setIsAuthenticated(false);  
-      setPlaces([]), setUpcomingTrips([]), setTripsMade([]);
+  
+      // Limpia estados locales tras eliminar la cuenta
+      setIsAuthenticated(false);
+      setPlaces([]);
+      setUpcomingTrips([]);
+      setTripsMade([]);
       setProfileImage(null);
+      window.location.href = '/'
     } catch (error) {
       console.error("Error deleting account or data:", error.message);
       throw new Error("Failed to delete account: " + error.message);

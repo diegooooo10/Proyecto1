@@ -22,4 +22,6 @@ export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
 
 // Configuración de persistencia para autenticación
-setPersistence(auth, browserLocalPersistence)
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Error setting persistence:", error);
+});

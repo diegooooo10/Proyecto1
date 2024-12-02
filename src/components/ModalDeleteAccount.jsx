@@ -67,7 +67,7 @@ export const ModalDeleteAccount = ({ onClose, deleteAccount }) => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="confirmPass"
-                className="mt-5 input-common"
+                className="mt-5 mb-1 input-common"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} // Actualiza el estado con la contraseña
               />
