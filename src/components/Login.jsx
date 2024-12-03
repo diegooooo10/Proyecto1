@@ -59,6 +59,7 @@ export const Login = () => {
     if (!formData.password || formData.password.length < 6) {
       return "The password must be at least 6 characters.";
     }
+
     return "";
   };
   useEffect(() => {
@@ -70,7 +71,7 @@ export const Login = () => {
       passwordConfirm: "",
     });
     setError(""); // Limpiar también el error al cambiar de tab
-    setShowPassword(false)
+    setShowPassword(false);
   }, [activeTab]);
 
   const handleSubmit = async (e) => {
@@ -95,11 +96,22 @@ export const Login = () => {
           formData.name,
           formData.phone
         );
-        //alert("Account created successfully!");
         setActiveTab("login");
       }
     } catch (err) {
-      setError(err.message || "An error occurred. Please try again.");
+      if (err.code == "auth/invalid-credential") {
+        setError("Invalid email or password");
+      } else if (err.code == "auth/email-already-in-use") {
+        setError("Email already in use");
+      } else if (err.code == "auth/weak-password") {
+        setError("Password is too weak");
+      } else if (err.code == "auth/user-not-found") {
+        setError("User not found");
+      } else if (err.code == "auth/wrong-password") {
+        setError("Wrong password");
+      } else {
+        setError(err.message || "An error occurred. Please try again.");
+      }
     }
 
     setIsLoading(false);
@@ -155,8 +167,8 @@ export const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {error && (
-            <div className="text-sm text-center text-red-500">{error}</div>
+          {error && setTimeout(() => setError(null), 3000) && (
+            <p className="text-sm text-center text-red-500">{error}</p>
           )}
           {activeTab === "register" && (
             <div>

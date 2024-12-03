@@ -55,7 +55,8 @@ export const Places = () => {
   return (
     <div className="min-h-screen p-5 bg-white md:p-8 dark:bg-slate-800">
       <div className="flex items-center justify-between lg:p-1 lg:px-2 lg:pb-0.5">
-        <Link to="/" className="">
+        <div></div>
+        <Link to="/" className="fixed">
           <ArrowReturn />
         </Link>
 

@@ -121,52 +121,58 @@ export const Acount = () => {
       if (!currentUser || !currentUser.email) {
         throw new Error("There is no authenticated user.");
       }
-  
+
       // Crea las credenciales de autenticación con la contraseña proporcionada
-      const credential = EmailAuthProvider.credential(currentUser.email, password);
-  
+      const credential = EmailAuthProvider.credential(
+        currentUser.email,
+        password
+      );
+
       // Reautentica al usuario con la contraseña
       await reauthenticateWithCredential(currentUser, credential);
-  
+
       // Obtén el userId del usuario autenticado
       const userId = currentUser.uid;
-  
+
       // Referencia al documento del usuario en Firestore
       const userRef = doc(db, "users", userId);
-  
+
       // Eliminar subcolecciones (futureTrips y pastTrips)
       const deleteSubcollections = async (userId) => {
         const subcollections = ["futureTrips", "pastTrips"]; // Define tus subcolecciones
-  
+
         for (const subcollection of subcollections) {
-          const subcollectionRef = collection(db, `users/${userId}/${subcollection}`);
+          const subcollectionRef = collection(
+            db,
+            `users/${userId}/${subcollection}`
+          );
           const subcollectionSnapshot = await getDocs(subcollectionRef);
-  
+
           // Elimina cada documento dentro de la subcolección
           for (const doc of subcollectionSnapshot.docs) {
             await deleteDoc(doc.ref);
           }
         }
       };
-  
+
       // Llamar a la función para eliminar subcolecciones
       await deleteSubcollections(userId);
-  
+
       // Elimina el documento principal del usuario en Firestore
       await deleteDoc(userRef);
-  
+
       // Elimina la cuenta del usuario autenticado
       await deleteUser(currentUser);
-  
+
       console.log("User account and data deleted successfully.");
-  
+
       // Limpia estados locales tras eliminar la cuenta
       setIsAuthenticated(false);
       setPlaces([]);
       setUpcomingTrips([]);
       setTripsMade([]);
       setProfileImage(null);
-      window.location.href = '/'
+      window.location.href = "/";
     } catch (error) {
       console.error("Error deleting account or data:", error.message);
       throw new Error("Failed to delete account: " + error.message);
@@ -210,12 +216,12 @@ export const Acount = () => {
         </label>
         <input
           type="file"
-          accept="image/png,image/jpeg"
-          name="profile"
+          accept="image/jpeg, image/png, image/gif"
           id="profile"
-          onChange={imageProfileChange} // Llama a la función cuando se selecciona un archivo
+          onChange={imageProfileChange} // Función corregida
           className="hidden"
         />
+
         <p className="m-3 text-lg font-medium text-black dark:text-white">
           {currentUser?.name}
         </p>
@@ -294,7 +300,12 @@ export const Acount = () => {
           </div>
         )}
       </article>
-      {modal && <ModalDeleteAccount onClose={closeModal} deleteAccount= {deleteAccount} />}
+      {modal && (
+        <ModalDeleteAccount
+          onClose={closeModal}
+          deleteAccount={deleteAccount}
+        />
+      )}
     </div>
   );
 };

@@ -278,5 +278,174 @@
     "description": "Stay at a luxurious resort by the beach with all-inclusive amenities.",
     "img": "https://via.placeholder.com/300x200",
     "price": "$2200"
+  },
+
+  {
+    "id": 41,
+    "title": "Grand Canyon",
+    "description": "Explore breathtaking views and rugged trails of this natural wonder.",
+    "img": "/grand-canyon.jpg",
+    "price": "$350"
+  },
+  {
+    "id": 42,
+    "title": "Eiffel Tower",
+    "description": "Visit Paris’ iconic landmark and enjoy stunning city views.",
+    "img": "/eiffel-tower.jpg",
+    "price": "$500"
+  },
+  {
+    "id": 43,
+    "title": "Machu Picchu",
+    "description": "Discover the ancient Incan citadel with its stunning mountain backdrop.",
+    "img": "/machu-picchu.jpg",
+    "price": "$750"
+  },
+  {
+    "id": 44,
+    "title": "Santorini",
+    "description": "Experience Greek island charm with whitewashed villages and sunsets.",
+    "img": "/santorini.jpg",
+    "price": "$600"
+  },
+  {
+    "id": 45,
+    "title": "Great Barrier Reef",
+    "description": "Dive into the world’s largest coral reef with vibrant marine life.",
+    "img": "/great-barrier-reef.jpg",
+    "price": "$1,200"
+  },
+  {
+    "id": 46,
+    "title": "Mount Fuji",
+    "description": "Admire Japan's iconic volcano and its serene surroundings.",
+    "img": "/mount-fuji.jpg",
+    "price": "$450"
+  },
+  {
+    "id": 47,
+    "title": "Banff National Park",
+    "description": "Visit turquoise lakes and majestic peaks in this Canadian gem.",
+    "img": "/banff-national-park.jpg",
+    "price": "$550"
+  },
+  {
+    "id": 48,
+    "title": "Angkor Wat",
+    "description": "Explore Cambodia's ancient temple complex with intricate carvings.",
+    "img": "/angkor-wat.jpg",
+    "price": "$700"
+  },
+  {
+    "id": 49,
+    "title": "Serengeti",
+    "description": "Witness incredible wildlife migrations on an unforgettable safari.",
+    "img": "/serengeti.jpg",
+    "price": "$1,000"
+  },
+  {
+    "id": 50,
+    "title": "The Colosseum",
+    "description": "Step into history at Rome’s iconic ancient amphitheater.",
+    "img": "/the-colosseum.jpg",
+    "price": "$400"
+  },
+  {
+    "id": 51,
+    "title": "Petra",
+    "description": "Discover the rose city carved into sandstone cliffs.",
+    "img": "/petra.jpg",
+    "price": "$850"
+  },
+  {
+    "id": 52,
+    "title": "Niagara Falls",
+    "description": "Feel the power of nature at these breathtaking waterfalls.",
+    "img": "/niagara-falls.jpg",
+    "price": "$300"
+  },
+  {
+    "id": 53,
+    "title": "Bora Bora",
+    "description": "Relax in a tropical paradise with crystal-clear waters.",
+    "img": "/bora-bora.jpg",
+    "price": "$1,500"
+  },
+  {
+    "id": 54,
+    "title": "The Great Wall of China",
+    "description": "Walk along one of the world’s most iconic landmarks.",
+    "img": "/great-wall-of-china.jpg",
+    "price": "$900"
+  },
+  {
+    "id": 55,
+    "title": "Yellowstone National Park",
+    "description": "Experience geysers, wildlife, and natural beauty.",
+    "img": "/yellowstone-national-park.jpg",
+    "price": "$500"
+  },
+  {
+    "id": 56,
+    "title": "Pyramids of Giza",
+    "description": "Marvel at the ancient wonders of Egypt.",
+    "img": "/pyramids-of-giza.jpg",
+    "price": "$700"
+  },
+  {
+    "id": 57,
+    "title": "Cinque Terre",
+    "description": "Visit colorful villages perched on the Italian coastline.",
+    "img": "/cinque-terre.jpg",
+    "price": "$650"
+  },
+  {
+    "id": 58,
+    "title": "Halong Bay",
+    "description": "Sail through emerald waters and towering limestone islands.",
+    "img": "/halong-bay.jpg",
+    "price": "$850"
+  },
+  {
+    "id": 59,
+    "title": "Salar de Uyuni",
+    "description": "Explore the world’s largest salt flat with surreal landscapes.",
+    "img": "/salar-de-uyuni.jpg",
+    "price": "$400"
+  },
+  {
+    "id": 60,
+    "title": "Kruger National Park",
+    "description": "Go on a safari to see Africa’s Big Five.",
+    "img": "/kruger-national-park.jpg",
+    "price": "$1,000"
+  },
+  {
+    "id": 61,
+    "title": "Chicago",
+    "description": "Discover world-class architecture and vibrant city life.",
+    "img": "/chicago-card.png",
+    "price": "$250"
+  },
+  {
+    "id": 62,
+    "title": "Los Angeles",
+    "description": "Visit the city of stars with iconic attractions.",
+    "img": "/los-angeles-card.png",
+    "price": "$400"
+  },
+  {
+    "id": 63,
+    "title": "Miami",
+    "description": "Enjoy sunny beaches and vibrant nightlife.",
+    "img": "/miami-card.png",
+    "price": "$350"
+  },
+  {
+    "id": 64,
+    "title": "Bali",
+    "description": "Relax in an island paradise with stunning beaches and temples.",
+    "img": "/bali-card.png",
+    "price": "$1,100"
   }
 ]

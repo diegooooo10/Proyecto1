@@ -23,7 +23,7 @@ export const UserProfileProvider = ({ children }) => {
   }, [user()]);
 
   const handleImageChange = (e) => {
-    const file = e.target.files[userId()];
+    const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = async (event) => {
