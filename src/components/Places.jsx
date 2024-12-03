@@ -85,6 +85,7 @@ export const Places = () => {
                 <img
                   src={place.img}
                   alt={place.title}
+                  loading="lazy"
                   className="object-cover w-full h-40"
                 />
                 <div className="p-4 space-y-3">

@@ -3,280 +3,280 @@
     "id": 1,
     "title": "Beach Paradise",
     "description": "Relax and unwind on this sunny beach with crystal clear water.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/beach-paradise.jpg",
     "price": "$1200"
   },
   {
     "id": 2,
     "title": "Mountain Retreat",
     "description": "Escape to the mountains for fresh air and stunning views.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/mountain-retreat.jpg",
     "price": "$950"
   },
   {
     "id": 3,
     "title": "City Adventure",
     "description": "Discover vibrant city life full of culture and excitement.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/city-adventure.jpg",
     "price": "$800"
   },
   {
     "id": 4,
     "title": "Desert Expedition",
     "description": "Explore the wonders of the vast and mysterious desert.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/desert-expedition.jpg",
     "price": "$1100"
   },
   {
     "id": 5,
     "title": "Tropical Forest",
     "description": "Immerse yourself in the lush green beauty of the tropics.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/tropical-forest.jpg",
     "price": "$1300"
   },
   {
     "id": 6,
     "title": "Historic Town",
     "description": "Step back in time and visit this charming historic town.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/historic-town.jpg",
     "price": "$700"
   },
   {
     "id": 7,
     "title": "Island Getaway",
     "description": "Relax on this secluded island surrounded by turquoise waters.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/island-getaway.jpg",
     "price": "$1500"
   },
   {
     "id": 8,
     "title": "Cultural Escape",
     "description": "Explore rich cultural landmarks and learn about ancient traditions.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/cultural-escape.png",
     "price": "$950"
   },
   {
     "id": 9,
     "title": "Safari Adventure",
     "description": "See majestic wildlife up close on this unforgettable safari.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/safari-adventure.jpg",
     "price": "$1800"
   },
   {
     "id": 10,
     "title": "Northern Lights",
     "description": "Witness the breathtaking beauty of the aurora borealis.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/northern-lights.jpg",
     "price": "$2000"
   },
   {
     "id": 11,
     "title": "Countryside Bliss",
     "description": "Escape to the peaceful countryside for relaxation and serenity.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/countryside-bliss.jpg",
     "price": "$750"
   },
   {
     "id": 12,
     "title": "Winter Wonderland",
     "description": "Experience the magic of snow-covered landscapes and cozy cabins.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/winter-wonderland.jpg",
     "price": "$950"
   },
   {
     "id": 13,
     "title": "Jungle Adventure",
     "description": "Explore dense jungles filled with exotic flora and fauna.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/jungle-adventure.jpg",
     "price": "$1400"
   },
   {
     "id": 14,
     "title": "Lakeside Retreat",
     "description": "Relax by the tranquil waters of this picturesque lake.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/lakeside-retreat.jpg",
     "price": "$850"
   },
   {
     "id": 15,
     "title": "Volcano Trek",
     "description": "Hike up a volcano for an unforgettable adventure.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/volcano-trek.jpg",
     "price": "$1200"
   },
   {
     "id": 16,
     "title": "Cave Exploration",
     "description": "Discover hidden caves and their fascinating formations.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/cave-exploration.jpg",
     "price": "$900"
   },
   {
     "id": 17,
     "title": "Ocean Cruise",
     "description": "Sail the high seas and visit exotic destinations.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/ocean-cruise.jpg",
     "price": "$2200"
   },
   {
     "id": 18,
     "title": "Castle Tour",
     "description": "Visit historic castles and learn their incredible stories.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/castle-tour.jpg",
     "price": "$1050"
   },
   {
     "id": 19,
     "title": "Wine Country",
     "description": "Indulge in fine wines and gourmet cuisine in scenic vineyards.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/wine-country.jpg",
     "price": "$1250"
   },
   {
     "id": 20,
     "title": "Hot Air Balloon Ride",
     "description": "Enjoy stunning aerial views from a hot air balloon.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/hot-air-ballon-ride.jpg",
     "price": "$500"
   },
   {
     "id": 21,
     "title": "Safari Lodge",
     "description": "Stay at a luxury lodge and explore nearby wildlife reserves.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/safari-lodge.jpg",
     "price": "$1600"
   },
   {
     "id": 22,
     "title": "Glacier Adventure",
     "description": "Experience the thrill of walking on a glacier.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/glacier-adventure.jpg",
     "price": "$1300"
   },
   {
     "id": 23,
     "title": "Rainforest Escape",
     "description": "Discover the vibrant life of the rainforest.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/rainforest-escape.png",
     "price": "$1100"
   },
   {
     "id": 24,
     "title": "Island Resort",
     "description": "Relax in a luxurious resort on a private island.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/island-resort.jpg",
     "price": "$2500"
   },
   {
     "id": 25,
     "title": "Canyon Adventure",
     "description": "Hike through stunning canyons and admire natural wonders.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/canyon-adventure.jpg",
     "price": "$1050"
   },
   {
     "id": 26,
     "title": "River Cruise",
     "description": "Sail along beautiful rivers and enjoy scenic views.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/river-cruise.jpg",
     "price": "$950"
   },
   {
     "id": 27,
     "title": "National Park",
     "description": "Explore breathtaking landscapes in this national park.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/national-park.jpg",
     "price": "$800"
   },
   {
     "id": 28,
     "title": "Cultural Festival",
     "description": "Immerse yourself in the vibrant atmosphere of a local festival.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/cultural-festival.jpg",
     "price": "$600"
   },
   {
     "id": 29,
     "title": "Coastal Town",
     "description": "Discover charming coastal towns and their unique beauty.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/coastal-town.jpg",
     "price": "$750"
   },
   {
     "id": 30,
     "title": "Scenic Railway",
     "description": "Take a train journey through stunning landscapes.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/scenic-railway.jpg",
     "price": "$850"
   },
   {
     "id": 31,
     "title": "Historic Museum",
     "description": "Learn about history and culture in this fascinating museum.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/historic-museum.jpg",
     "price": "$450"
   },
   {
     "id": 32,
     "title": "Arctic Expedition",
     "description": "Explore the Arctic and witness incredible ice formations.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/artic-expedition.jpg",
     "price": "$1700"
   },
   {
     "id": 33,
     "title": "Sunset Cruise",
     "description": "Enjoy a beautiful sunset from the deck of a boat.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/sunset-cruise.jpg",
     "price": "$650"
   },
   {
     "id": 34,
     "title": "Fishing Village",
     "description": "Visit quaint fishing villages and enjoy fresh seafood.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/fishing-village.jpg",
     "price": "$550"
   },
   {
     "id": 35,
     "title": "Adventure Park",
     "description": "Experience thrilling activities in this adventure park.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/adventure-park.jpg",
     "price": "$400"
   },
   {
     "id": 36,
     "title": "Historic Battlefield",
     "description": "Learn about history while visiting an iconic battlefield.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/historic-battlefield.jpg",
     "price": "$600"
   },
   {
     "id": 37,
     "title": "Luxury Yacht",
     "description": "Sail in style on a luxury yacht with all the amenities.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/luxury-yacht.png",
     "price": "$3000"
   },
   {
     "id": 38,
     "title": "Amusement Park",
     "description": "Have fun at this thrilling amusement park with rides and games.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/amusement-park.jpg",
     "price": "$550"
   },
   {
     "id": 39,
     "title": "Spa Retreat",
     "description": "Unwind at a luxurious spa for the ultimate relaxation.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/spa-retreat.jpg",
     "price": "$950"
   },
   {
     "id": 40,
     "title": "Beach Resort",
     "description": "Stay at a luxurious resort by the beach with all-inclusive amenities.",
-    "img": "https://via.placeholder.com/300x200",
+    "img": "/beach-resort.jpg",
     "price": "$2200"
   },
 
