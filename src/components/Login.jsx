@@ -23,6 +23,7 @@ export const Login = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
 
   const handleToggle = () => setIsDarkMode(!isDarkMode);

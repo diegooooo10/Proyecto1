@@ -53,28 +53,28 @@ export const ModalDeleteAccount = ({ onClose, deleteAccount }) => {
       >
         <button
           onClick={closeModal}
-          className="absolute p-2 text-white top-3 right-2"
+          className="absolute p-2 text-black dark:text-white top-3 right-2"
         >
           <Close />
         </button>
         <h2 className="text-red-600">Delete Account</h2>
         <div className="flex flex-col space-y-3">
           <label htmlFor="confirmPass">
-            <span>Enter your password to confirm deletion.</span>
-            {error && <p className="my-4 text-sm text-red-500">{error}</p>}{" "}
+            <span >Enter your password to confirm deletion.</span>
+            {error && <p className="my-2 mt-1 text-sm text-red-500">{error}</p>}{" "}
             {/* Muestra el mensaje de error */}
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 id="confirmPass"
-                className="mt-5 mb-1 input-common"
+                className="mt-2 input-common"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} // Actualiza el estado con la contraseña
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-[25px] text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-[10px] text-gray-400 hover:text-gray-600"
               >
                 {showPassword ? <EyeOff /> : <Eye />}
               </button>
