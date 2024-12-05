@@ -50,8 +50,22 @@ export const ModalPlaces = ({ place, onClose }) => {
       return;
     }
 
-    if (new Date(checkOutDate) <= new Date(checkInDate)) {
+    const today = new Date(); // Objeto Date para la fecha de hoy
+    const checkIn = new Date(checkInDate);
+    const checkOut = new Date(checkOutDate);
+  
+    if (checkIn < today) {
+      setError("Check-in date must be in the future.");
+      return;
+    }
+  
+    if (checkOut <= checkIn) {
       setError("Check-out date must be after check-in date.");
+      return;
+    }
+  
+    if (checkOut < today) {
+      setError("Check-out date must be in the future.");
       return;
     }
 
@@ -82,12 +96,12 @@ export const ModalPlaces = ({ place, onClose }) => {
       date: checkInDate,
       img: place.img,
       price: place.price, // Precio ejemplo
-      description: place.description
+      description: place.description,
     };
 
     // Agregar el lugar
     addPlace(newPlace);
-    
+
     setError(""); // Limpiar errores si todo es válido
     closeModal(); // Cerrar modal con animación
   };
@@ -97,18 +111,27 @@ export const ModalPlaces = ({ place, onClose }) => {
       role="dialog"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
-      className={`fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 select-none transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0'} ${isOpen || isClosing ? 'pointer-events-auto' : 'pointer-events-none'}`}
+      className={`fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 select-none transition-opacity duration-500 ${
+        isOpen ? "opacity-100" : "opacity-0"
+      } ${isOpen || isClosing ? "pointer-events-auto" : "pointer-events-none"}`}
     >
       <div
-        className={`relative flex-col w-11/12 h-auto transform bg-white rounded-lg shadow-lg md:w-1/2 lg:w-1/3 transition-all duration-500 ${isOpen ? 'translate-y-0' : 'translate-y-5'} ${isClosing ? 'translate-y-5 opacity-0' : ''}`}
+        className={`relative flex-col w-11/12 h-auto transform bg-white rounded-lg shadow-lg md:w-1/2 lg:w-1/3 transition-all duration-500 ${
+          isOpen ? "translate-y-0" : "translate-y-5"
+        } ${isClosing ? "translate-y-5 opacity-0" : ""}`}
       >
         <div className="flex items-center w-full p-4 space-x-4 rounded-t-lg bg-gradient-to-r from-blue-600 to-blue-700 h-1/6">
           <Plane />
           <div className="flex flex-col">
             <h2 className="font-semibold text-white">Complete Your Booking</h2>
-            <p className="text-sm text-blue-100 font-extralight">{place.title}</p>
+            <p className="text-sm text-blue-100 font-extralight">
+              {place.title}
+            </p>
           </div>
-          <button onClick={closeModal} className="absolute p-2 text-white top-3 right-2">
+          <button
+            onClick={closeModal}
+            className="absolute p-2 text-white top-3 right-2"
+          >
             <Close />
           </button>
         </div>
@@ -131,6 +154,7 @@ export const ModalPlaces = ({ place, onClose }) => {
                 value={checkInDate}
                 onChange={(e) => setCheckInDate(e.target.value)}
                 className="inputField"
+                min={new Date().toISOString().split("T")[0]} // Restringe a la fecha de hoy
               />
             </div>
             <div className="flex flex-col">
@@ -144,6 +168,7 @@ export const ModalPlaces = ({ place, onClose }) => {
                 value={checkOutDate}
                 onChange={(e) => setCheckOutDate(e.target.value)}
                 className="inputField"
+                min={new Date().toISOString().split("T")[0]} // Restringe a la fecha de hoy
               />
             </div>
           </div>
@@ -155,7 +180,9 @@ export const ModalPlaces = ({ place, onClose }) => {
 
           <div className="space-y-4">
             <div className="relative">
-              <label htmlFor="cardnumber" className="label">Card Number</label>
+              <label htmlFor="cardnumber" className="label">
+                Card Number
+              </label>
               <CreditCard />
               <input
                 type="text"
@@ -171,7 +198,9 @@ export const ModalPlaces = ({ place, onClose }) => {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="expirydate" className="label">Expiry Date</label>
+                <label htmlFor="expirydate" className="label">
+                  Expiry Date
+                </label>
                 <input
                   type="text"
                   name="expirydate"
@@ -184,7 +213,9 @@ export const ModalPlaces = ({ place, onClose }) => {
                 />
               </div>
               <div>
-                <label htmlFor="cvc" className="label">CVC</label>
+                <label htmlFor="cvc" className="label">
+                  CVC
+                </label>
                 <input
                   type="text"
                   name="cvc"
@@ -199,7 +230,9 @@ export const ModalPlaces = ({ place, onClose }) => {
             </div>
 
             <div>
-              <label htmlFor="cardholdername" className="label">Cardholder Name</label>
+              <label htmlFor="cardholdername" className="label">
+                Cardholder Name
+              </label>
               <input
                 type="text"
                 name="cardholdername"

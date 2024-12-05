@@ -1,16 +1,18 @@
 import { useState, useContext, useMemo, useEffect } from "react";
 import allPlaces from "../mocks/all-places.json";
 import { DarkModeContext } from "../context/DarkModeContext";
-import { ArrowReturn, Dark } from "../svg";
+import { ArrowReturn, CircleCheck, Dark } from "../svg";
 import { Link, useSearchParams } from "react-router-dom";
 import { Element, scroller } from "react-scroll";
 import { ModalPlaces } from "./ModalPlaces";
+import { ModalMadeTrip } from "./ModalMadeTrip";
 
 export const Places = () => {
   const [search, setSearch] = useState("");
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
-  const [modal, setModal] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [modalMade, setModalMade] = useState(false);
 
   const [searchParams] = useSearchParams();
   const targetId = searchParams.get("id");
@@ -46,9 +48,17 @@ export const Places = () => {
     setSelectedPlace(place); // Establece el lugar seleccionado
     setModal(true); // Abre el modal
   };
+  const openModalMade = (place) => {
+    setSelectedPlace(place); // Establece el lugar seleccionado
+    setModalMade(true); // Abre el modal
+  };
 
   const closeModal = () => {
     setModal(false); // Cierra el modal
+    setSelectedPlace(null); // Limpia el lugar seleccionado
+  };
+  const closeModalMade = () => {
+    setModalMade(false); // Cierra el modal
     setSelectedPlace(null); // Limpia el lugar seleccionado
   };
 
@@ -100,12 +110,22 @@ export const Places = () => {
                   <p className="text-gray-700 dark:text-gray-300">
                     {place.description}
                   </p>
+                  <div className="flex justify-center space-x-5">
+
+
                   <button
                     onClick={() => openModal(place)}
-                    className="flex p-3 mx-auto text-white bg-blue-700 rounded-md hover:opacity-80"
+                    className="p-3 text-white bg-blue-700 rounded-md hover:opacity-80"
                   >
                     Reserve
                   </button>
+                  <button 
+                  onClick={() => openModalMade(place)}
+                  className="p-3 text-white bg-green-700 rounded-md hover:opacity-50"
+                  >
+                    <CircleCheck/>
+                  </button>
+                  </div>
                 </div>
               </div>
             </Element>
@@ -118,6 +138,9 @@ export const Places = () => {
       </div>
       {modal && selectedPlace && (
         <ModalPlaces place={selectedPlace} onClose={closeModal} />
+      )}
+      {modalMade && selectedPlace && (
+        <ModalMadeTrip place={selectedPlace} onClose={closeModalMade} />
       )}
     </div>
   );
